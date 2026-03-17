@@ -91,7 +91,6 @@ class DashboardController extends Controller
 
         return back()->with('succes', "Entreprise « {$entreprise->company_name} » rejetée.");
     }
-
     public function stages()
     {
         $stages = Stage::with([
@@ -100,7 +99,6 @@ class DashboardController extends Controller
         ])
         ->latest()
         ->paginate(15);
-
         return view('admin.stages', compact('stages'));
     }
 
