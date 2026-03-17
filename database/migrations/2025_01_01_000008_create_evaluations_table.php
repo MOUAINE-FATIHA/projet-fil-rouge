@@ -11,14 +11,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId('internship_id')->constrained()->onDelete('cascade');
             $table->foreignId('evaluator_id')->constrained('users')->onDelete('cascade');
-            $table->enum('evaluator_type', ['company', 'supervisor']); // qui évalue
-            $table->integer('technical_score')->nullable();     // compétences techniques /20
-            $table->integer('behavior_score')->nullable();      // comportement /20
-            $table->integer('communication_score')->nullable(); // communication /20
-            $table->integer('autonomy_score')->nullable();      // autonomie /20
-            $table->integer('overall_score')->nullable();       // note globale /20
+            $table->enum('evaluator_type', ['company', 'supervisor']); 
+            $table->integer('technical_score')->nullable();     
+            $table->integer('behavior_score')->nullable();      
+            $table->integer('communication_score')->nullable(); 
+            $table->integer('autonomy_score')->nullable();      
+            $table->integer('overall_score')->nullable();       
             $table->text('comments')->nullable();
-            $table->boolean('is_final')->default(false);        // évaluation finale
+            $table->boolean('is_final')->default(false);        
             $table->timestamps();
             $table->unique(['internship_id', 'evaluator_id', 'evaluator_type']);
         });

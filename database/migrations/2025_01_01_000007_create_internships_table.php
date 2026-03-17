@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        // Table représentant un stage actif (candidature acceptée → stage)
+        
         Schema::create('internships', function (Blueprint $table) {
             $table->id();
             $table->foreignId('application_id')->constrained()->onDelete('cascade');
@@ -16,15 +16,15 @@ return new class extends Migration
             $table->date('actual_start_date')->nullable();
             $table->date('actual_end_date')->nullable();
             $table->enum('status', [
-                'not_started',    // pas encore commencé
-                'in_progress',    // en cours
-                'completed',      // terminé
-                'interrupted',    // interrompu
+                'not_started',    
+                'in_progress',    
+                'completed',      
+                'interrupted',    
             ])->default('not_started');
-            $table->string('convention_path')->nullable();    // convention signée
-            $table->string('report_path')->nullable();        // rapport de stage
-            $table->text('student_feedback')->nullable();     // retour de l'étudiant
-            $table->integer('student_rating')->nullable();    // note 1-5
+            $table->string('convention_path')->nullable();    
+            $table->string('report_path')->nullable();       
+            $table->text('student_feedback')->nullable();     
+            $table->integer('student_rating')->nullable();    
             $table->timestamps();
         });
     }

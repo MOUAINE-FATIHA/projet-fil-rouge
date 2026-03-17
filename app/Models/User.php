@@ -6,27 +6,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
-
+    use HasFactory, Notifiable, SoftDeletes;
     protected $fillable = [
         'name',
         'email',
         'password',
-        'role',
+        'role',      
         'is_active',
         'avatar',
         'phone',
         'bio',
     ];
 
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = ['password', 'remember_token'];
 
     protected $casts = [
         'email_verified_at' => 'datetime',
@@ -34,60 +29,26 @@ class User extends Authenticatable
         'is_active'         => 'boolean',
     ];
 
-    public function studentProfile()
+    public function profilStagiaire()
     {
-        return $this->hasOne(StudentProfile::class);
+        return $this->hasOne(ProfilStagiaire::class);
     }
 
-    public function companyProfile()
+    public function profilEntreprise()
     {
-        return $this->hasOne(CompanyProfile::class);
+        return $this->hasOne(ProfilEntreprise::class);
+    }
+    public function profilEncadrant()
+    {
+        return $this->hasOne(ProfilEncadrant::class);
     }
 
-    public function supervisorProfile()
-    {
-        return $this->hasOne(SupervisorProfile::class);
-    }
+    public function estStagiaire(): bool { return $this->role === 'stagiaire'; }
+    public function estEntreprise(): bool { return $this->role === 'entreprise'; }
+    public function estAdmin(): bool     { return $this->role === 'admin'; }
 
-    public function conversations()
+    public function estEncadrant(): bool
     {
-        return $this->belongsToMany(Conversation::class, 'conversation_participants')
-                    ->withPivot('last_read_at')
-                    ->withTimestamps();
-    }
-
-    public function sentMessages()
-    {
-        return $this->hasMany(Message::class, 'sender_id');
-    }
-
-    public function isAdmin(): bool
-    {
-        return $this->role === 'admin';
-    }
-
-    public function isStudent(): bool
-    {
-        return $this->role === 'student';
-    }
-
-    public function isCompany(): bool
-    {
-        return $this->role === 'company';
-    }
-
-    public function isSupervisor(): bool
-    {
-        return $this->role === 'supervisor';
-    }
-
-    public function getProfileAttribute()
-    {
-        return match ($this->role) {
-            'student'    => $this->studentProfile,
-            'company'    => $this->companyProfile,
-            'supervisor' => $this->supervisorProfile,
-            default      => null,
-        };
+        return $this->role === 'encadrant';
     }
 }

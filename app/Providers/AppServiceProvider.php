@@ -2,23 +2,23 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use App\Models\Candidature;
+use App\Models\Offre;
+use App\Policies\CandidaturePolicy;
+use App\Policies\OffrePolicy;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
-    public function register(): void
-    {
-        //
-    }
+    protected $policies = [
+        Offre::class       => OffrePolicy::class,
+        Candidature::class => CandidaturePolicy::class,
+    ];
 
-    /**
-     * Bootstrap any application services.
-     */
+    public function register(): void {}
+
     public function boot(): void
     {
-        //
+        $this->registerPolicies();
     }
 }

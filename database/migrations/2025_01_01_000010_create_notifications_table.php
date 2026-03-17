@@ -8,7 +8,6 @@ return new class extends Migration
 {
     public function up(): void
     {
-        // Laravel's built-in notifications table
         Schema::create('notifications', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('type');

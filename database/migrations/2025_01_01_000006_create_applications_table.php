@@ -12,21 +12,21 @@ return new class extends Migration
             $table->id();
             $table->foreignId('student_id')->constrained('student_profiles')->onDelete('cascade');
             $table->foreignId('offer_id')->constrained('internship_offers')->onDelete('cascade');
-            $table->text('cover_letter')->nullable();          // lettre de motivation
-            $table->string('cv_path')->nullable();             // CV spécifique à cette candidature
+            $table->text('cover_letter')->nullable();          
+            $table->string('cv_path')->nullable();             
             $table->enum('status', [
-                'pending',      // en attente
-                'reviewing',    // en cours de traitement
-                'accepted',     // acceptée
-                'rejected',     // refusée
-                'withdrawn',    // retirée par l'étudiant
+                'pending',      
+                'reviewing',    
+                'accepted',     
+                'rejected',     
+                'withdrawn',    
             ])->default('pending');
-            $table->text('company_feedback')->nullable();      // retour de l'entreprise
+            $table->text('company_feedback')->nullable();      
             $table->timestamp('reviewed_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
-            // Un étudiant ne peut postuler qu'une fois par offre
+            
             $table->unique(['student_id', 'offer_id']);
             $table->index('status');
         });
