@@ -23,7 +23,7 @@ class CandidatureRefusee extends Notification
             'type'    => 'candidature_refusee',
             'titre'   => 'Candidature non retenue',
             'message' => "Votre candidature pour \"{$this->candidature->offre->title}\" n'a pas été retenue.",
-            'url'     => '/stagiaire/candidatures',
+            'url'=> '/stagiaire/candidatures',
         ];
     }
 }
