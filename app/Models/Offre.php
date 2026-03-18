@@ -32,11 +32,11 @@ class Offre extends Model
     ];
     protected $casts = [
         'start_date'=> 'date',
-        'end_date'             => 'date',
+        'end_date' => 'date',
         'application_deadline' => 'date',
-        'is_remote'            => 'boolean',
-        'stipend'              => 'decimal:2',
-        'required_skills'      => 'array',
+        'is_remote' => 'boolean',
+        'stipend' => 'decimal:2',
+        'required_skills'=> 'array',
     ];
 
     public function entreprise()
