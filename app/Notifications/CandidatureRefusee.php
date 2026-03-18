@@ -20,8 +20,8 @@ class CandidatureRefusee extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'type'    => 'candidature_refusee',
-            'titre'   => 'Candidature non retenue',
+            'type'=> 'candidature_refusee',
+            'titre'=> 'Candidature non retenue',
             'message' => "Votre candidature pour \"{$this->candidature->offre->title}\" n'a pas été retenue.",
             'url'=> '/stagiaire/candidatures',
         ];
