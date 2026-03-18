@@ -20,7 +20,6 @@ class User extends Authenticatable
         'phone',
         'bio',
     ];
-
     protected $hidden = ['password', 'remember_token'];
 
     protected $casts = [
@@ -28,7 +27,6 @@ class User extends Authenticatable
         'password'          => 'hashed',
         'is_active'         => 'boolean',
     ];
-
     public function profilStagiaire()
     {
         return $this->hasOne(ProfilStagiaire::class);
