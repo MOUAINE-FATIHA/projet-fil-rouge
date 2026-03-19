@@ -9,9 +9,7 @@ use Illuminate\Notifications\Notification;
 class StageAssigne extends Notification
 {
     use Queueable;
-
     public function __construct(private Stage $stage) {}
-
     public function via(object $notifiable): array
     {
         return ['database'];
