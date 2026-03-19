@@ -16,14 +16,13 @@ class StageAssigne extends Notification
     {
         return ['database'];
     }
-
     public function toArray(object $notifiable): array
     {
         return [
-            'type'    => 'stage_assigne',
-            'titre'   => 'Nouveau stage à encadrer',
+            'type' => 'stage_assigne',
+            'titre'=> 'Nouveau stage à encadrer',
             'message' => "Un nouveau stage vous a été assigné : \"{$this->stage->candidature->offre->title}\" — {$this->stage->candidature->stagiaire->user->name}.",
-            'url'     => '/encadrant/stages',
+            'url'=> '/encadrant/stages',
         ];
     }
 }
