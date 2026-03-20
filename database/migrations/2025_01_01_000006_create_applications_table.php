@@ -6,8 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up(): void
-    {
+    public function up(): void{
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('student_id')->constrained('student_profiles')->onDelete('cascade');
@@ -31,7 +30,6 @@ return new class extends Migration
             $table->index('status');
         });
     }
-
     public function down(): void
     {
         Schema::dropIfExists('applications');
