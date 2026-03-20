@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up(): void
-    {
-        
+    public function up(): void{
         Schema::create('internships', function (Blueprint $table) {
             $table->id();
             $table->foreignId('application_id')->constrained()->onDelete('cascade');
@@ -28,7 +26,6 @@ return new class extends Migration
             $table->timestamps();
         });
     }
-
     public function down(): void
     {
         Schema::dropIfExists('internships');
