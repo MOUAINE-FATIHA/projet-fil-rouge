@@ -6,15 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up(): void
-    {
+    public function up(): void{
         Schema::create('conversations', function (Blueprint $table) {
             $table->id();
             $table->string('subject')->nullable();
             $table->foreignId('internship_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });
-
         Schema::create('conversation_participants', function (Blueprint $table) {
             $table->id();
             $table->foreignId('conversation_id')->constrained()->onDelete('cascade');
@@ -36,7 +34,6 @@ return new class extends Migration
             $table->index(['conversation_id', 'created_at']);
         });
     }
-
     public function down(): void
     {
         Schema::dropIfExists('messages');
