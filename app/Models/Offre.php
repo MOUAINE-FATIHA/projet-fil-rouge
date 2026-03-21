@@ -11,7 +11,6 @@ class Offre extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'internship_offers';
-
     protected $fillable = [
         'company_id',
         'title',
