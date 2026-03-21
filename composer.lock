@@ -20,6 +20,7 @@
                 "reference": "63422359a44b7f06cae63c3b429b59e8efcc0629",
                 "shasum": ""
             },
+            
             "require": {
                 "php": "^8.2"
             },
