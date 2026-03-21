@@ -9,9 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Candidature extends Model
 {
     use HasFactory, SoftDeletes;
-
     protected $table = 'applications';
-
     protected $fillable = [
         'student_id',
         'offer_id',
@@ -21,18 +19,15 @@ class Candidature extends Model
         'company_feedback',
         'reviewed_at',
     ];
-
     protected $casts = [
         'reviewed_at' => 'datetime',
     ];
 
-    public function stagiaire()
-    {
+    public function stagiaire(){
         return $this->belongsTo(ProfilStagiaire::class, 'student_id');
     }
 
-    public function offre()
-    {
+    public function offre(){
         return $this->belongsTo(Offre::class, 'offer_id');
     }
 
