@@ -1,16 +1,13 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ProfilEncadrant extends Model
 {
     use HasFactory;
-
     protected $table = 'supervisor_profiles';
-
     protected $fillable = [
         'user_id',
         'department',
@@ -18,7 +15,6 @@ class ProfilEncadrant extends Model
         'specialization',
         'max_students',
     ];
-
     public function user()
     {
         return $this->belongsTo(User::class);
