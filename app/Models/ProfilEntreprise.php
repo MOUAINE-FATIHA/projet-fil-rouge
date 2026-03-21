@@ -32,7 +32,6 @@ class ProfilEntreprise extends Model
     protected $casts = [
         'validated_at' => 'datetime',
     ];
-
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -42,7 +41,6 @@ class ProfilEntreprise extends Model
     {
         return $this->hasMany(Offre::class, 'company_id');
     }
-
     public function offresPubliees()
     {
         return $this->offres()->where('status', 'published');
