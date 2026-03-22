@@ -12,9 +12,6 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    /**
-     * POST /api/auth/register
-     */
     public function register(Request $request): JsonResponse
     {
         $data = $request->validate([
@@ -32,8 +29,6 @@ class AuthController extends Controller
             'role'     => $data['role'],
             'phone'    => $data['phone'] ?? null,
         ]);
-
-        // Créer le profil correspondant au rôle
         match ($user->role) {
             'student'    => $user->studentProfile()->create([]),
             'company'    => $user->companyProfile()->create(['company_name' => $user->name]),
@@ -49,9 +44,6 @@ class AuthController extends Controller
         ], 201);
     }
 
-    /**
-     * POST /api/auth/login
-     */
     public function login(Request $request): JsonResponse
     {
         $data = $request->validate([
@@ -80,9 +72,6 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * POST /api/auth/logout
-     */
     public function logout(Request $request): JsonResponse
     {
         $request->user()->currentAccessToken()->delete();
@@ -90,9 +79,6 @@ class AuthController extends Controller
         return response()->json(['message' => 'Déconnexion réussie.']);
     }
 
-    /**
-     * GET /api/auth/me
-     */
     public function me(Request $request): JsonResponse
     {
         $user = $request->user()->load(
@@ -104,9 +90,6 @@ class AuthController extends Controller
         return response()->json(['user' => $user]);
     }
 
-    /**
-     * PUT /api/auth/password
-     */
     public function updatePassword(Request $request): JsonResponse
     {
         $data = $request->validate([
