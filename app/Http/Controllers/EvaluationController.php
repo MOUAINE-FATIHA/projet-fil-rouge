@@ -10,15 +10,10 @@ use Illuminate\Http\Request;
 
 class EvaluationController extends Controller
 {
-    /**
-     * POST /api/internships/{internship}/evaluations
-     * Créer ou mettre à jour une évaluation
-     */
+    
     public function store(Request $request, Internship $internship): JsonResponse
     {
         $user = $request->user();
-
-        // Déterminer le type d'évaluateur
         $evaluatorType = match (true) {
             $user->isCompany()    => 'company',
             $user->isSupervisor() => 'supervisor',
@@ -50,15 +45,10 @@ class EvaluationController extends Controller
         ], 201);
     }
 
-    /**
-     * GET /api/internships/{internship}/evaluations
-     */
     public function index(Request $request, Internship $internship): JsonResponse
     {
         $this->authorize('view', $internship);
-
         $evaluations = $internship->evaluations()->with('evaluator')->get();
-
         return response()->json(['evaluations' => $evaluations]);
     }
 }
