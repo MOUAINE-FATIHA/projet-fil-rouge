@@ -8,9 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Stage extends Model
 {
     use HasFactory;
-
     protected $table = 'internships';
-
     protected $fillable = [
         'application_id',
         'supervisor_id',
