@@ -30,7 +30,6 @@ class ProfilStagiaire extends Model
         'skills'    => 'array',
         'languages' => 'array',
     ];
-
     public function user()
     {
         return $this->belongsTo(User::class);
