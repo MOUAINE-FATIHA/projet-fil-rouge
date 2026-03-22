@@ -22,7 +22,6 @@ class Stage extends Model
         'student_feedback',
         'student_rating',
     ];
-
     protected $casts = [
         'actual_start_date' => 'date',
         'actual_end_date'   => 'date',
@@ -32,11 +31,9 @@ class Stage extends Model
     {
         return $this->belongsTo(Candidature::class, 'application_id');
     }
-
     public function estEnCours(): bool  { return $this->status === 'in_progress'; }
     public function estTermine(): bool  { return $this->status === 'completed'; }
 
-    // Ajouter dans la section Relations
     public function encadrant()
     {
         return $this->belongsTo(ProfilEncadrant::class, 'supervisor_id');
