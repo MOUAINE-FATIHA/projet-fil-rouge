@@ -9,10 +9,6 @@ use Illuminate\Http\Request;
 
 class InternshipController extends Controller
 {
-    /**
-     * GET /api/internships
-     * Liste des stages (filtrée selon le rôle)
-     */
     public function index(Request $request): JsonResponse
     {
         $user = $request->user();
@@ -32,16 +28,12 @@ class InternshipController extends Controller
         } elseif ($user->isSupervisor()) {
             $query->where('supervisor_id', $user->supervisorProfile->id);
         }
-        // admin: voit tout
 
         $internships = $query->latest()->paginate(10);
 
         return response()->json($internships);
     }
 
-    /**
-     * GET /api/internships/{internship}
-     */
     public function show(Request $request, Internship $internship): JsonResponse
     {
         $this->authorize('view', $internship);
@@ -56,10 +48,6 @@ class InternshipController extends Controller
         return response()->json(['internship' => $internship]);
     }
 
-    /**
-     * PATCH /api/internships/{internship}/status
-     * Mettre à jour le statut du stage
-     */
     public function updateStatus(Request $request, Internship $internship): JsonResponse
     {
         $this->authorize('updateStatus', $internship);
@@ -78,10 +66,6 @@ class InternshipController extends Controller
         ]);
     }
 
-    /**
-     * PATCH /api/internships/{internship}/assign-supervisor
-     * Assigner un encadrant (admin)
-     */
     public function assignSupervisor(Request $request, Internship $internship): JsonResponse
     {
         abort_unless($request->user()->isAdmin(), 403);
@@ -98,10 +82,7 @@ class InternshipController extends Controller
         ]);
     }
 
-    /**
-     * POST /api/internships/{internship}/documents
-     * Upload convention ou rapport
-     */
+    
     public function uploadDocument(Request $request, Internship $internship): JsonResponse
     {
         $this->authorize('uploadDocument', $internship);
@@ -125,10 +106,6 @@ class InternshipController extends Controller
         ]);
     }
 
-    /**
-     * POST /api/internships/{internship}/feedback
-     * Retour de l'étudiant sur son stage
-     */
     public function studentFeedback(Request $request, Internship $internship): JsonResponse
     {
         abort_unless($request->user()->isStudent(), 403);
