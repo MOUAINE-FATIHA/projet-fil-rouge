@@ -24,8 +24,8 @@ class User extends Authenticatable
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password'          => 'hashed',
-        'is_active'         => 'boolean',
+        'password'=> 'hashed',
+        'is_active'=> 'boolean',
     ];
     public function profilStagiaire()
     {
@@ -44,7 +44,6 @@ class User extends Authenticatable
     public function estStagiaire(): bool { return $this->role === 'stagiaire'; }
     public function estEntreprise(): bool { return $this->role === 'entreprise'; }
     public function estAdmin(): bool     { return $this->role === 'admin'; }
-
     public function estEncadrant(): bool
     {
         return $this->role === 'encadrant';
