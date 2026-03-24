@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Repositories\Contracts;
-
 interface CandidatureContract
 {
     public function parStagiaire(int $stagiaireId);
