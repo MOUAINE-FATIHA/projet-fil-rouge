@@ -25,7 +25,6 @@ class CandidatureRepo implements CandidatureContract
             ->latest()
             ->paginate(15);
     }
-
     public function dejaPostule(int $stagiaireId, int $offreId): bool
     {
         return $this->model
@@ -33,7 +32,6 @@ class CandidatureRepo implements CandidatureContract
             ->where('offer_id', $offreId)
             ->exists();
     }
-
     public function creer(array $donnees)
     {
         return $this->model->create($donnees);
