@@ -24,7 +24,6 @@ class Application extends Model
         'reviewed_at' => 'datetime',
     ];
 
-    // ─── Relations ───────────────────────────────────────────────
 
     public function student()
     {
@@ -40,8 +39,6 @@ class Application extends Model
     {
         return $this->hasOne(Internship::class);
     }
-
-    // ─── Helpers ─────────────────────────────────────────────────
 
     public function isAccepted(): bool
     {
@@ -61,7 +58,6 @@ class Application extends Model
             'reviewed_at'      => now(),
         ]);
 
-        // Créer automatiquement le stage
         $this->internship()->create([
             'status' => 'not_started',
         ]);

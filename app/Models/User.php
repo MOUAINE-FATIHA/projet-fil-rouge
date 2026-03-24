@@ -34,8 +34,6 @@ class User extends Authenticatable
         'is_active'         => 'boolean',
     ];
 
-    // ─── Relations ───────────────────────────────────────────────
-
     public function studentProfile()
     {
         return $this->hasOne(StudentProfile::class);
@@ -62,8 +60,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Message::class, 'sender_id');
     }
-
-    // ─── Helpers ─────────────────────────────────────────────────
 
     public function isAdmin(): bool
     {

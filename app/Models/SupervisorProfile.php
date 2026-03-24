@@ -17,8 +17,6 @@ class SupervisorProfile extends Model
         'max_students',
     ];
 
-    // ─── Relations ───────────────────────────────────────────────
-
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -43,8 +41,6 @@ class SupervisorProfile extends Model
             'internship_id'
         );
     }
-
-    // ─── Helpers ─────────────────────────────────────────────────
 
     public function hasCapacity(): bool
     {

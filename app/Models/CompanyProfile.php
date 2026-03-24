@@ -31,7 +31,6 @@ class CompanyProfile extends Model
         'validated_at' => 'datetime',
     ];
 
-    // ─── Relations ───────────────────────────────────────────────
 
     public function user()
     {
@@ -52,8 +51,6 @@ class CompanyProfile extends Model
     {
         return $this->belongsTo(User::class, 'validated_by');
     }
-
-    // ─── Helpers ─────────────────────────────────────────────────
 
     public function isApproved(): bool
     {

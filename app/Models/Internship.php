@@ -26,7 +26,6 @@ class Internship extends Model
         'actual_end_date'   => 'date',
     ];
 
-    // ─── Relations ───────────────────────────────────────────────
 
     public function application()
     {
@@ -53,20 +52,18 @@ class Internship extends Model
         return $this->hasOne(Evaluation::class)->where('evaluator_type', 'supervisor');
     }
 
-    // Shortcut vers l'étudiant
     public function student()
     {
         return $this->hasOneThrough(
             StudentProfile::class,
             Application::class,
-            'id',           // FK on applications
-            'id',           // FK on student_profiles
+            'id',           
+            'id',           
             'application_id',
             'student_id'
         );
     }
 
-    // Shortcut vers l'offre
     public function offer()
     {
         return $this->hasOneThrough(
@@ -79,7 +76,6 @@ class Internship extends Model
         );
     }
 
-    // ─── Helpers ─────────────────────────────────────────────────
 
     public function isInProgress(): bool
     {

@@ -26,7 +26,6 @@ class Evaluation extends Model
         'is_final' => 'boolean',
     ];
 
-    // ─── Relations ───────────────────────────────────────────────
 
     public function internship()
     {
@@ -38,7 +37,6 @@ class Evaluation extends Model
         return $this->belongsTo(User::class, 'evaluator_id');
     }
 
-    // ─── Helpers ─────────────────────────────────────────────────
 
     public function getComputedOverallAttribute(): float
     {

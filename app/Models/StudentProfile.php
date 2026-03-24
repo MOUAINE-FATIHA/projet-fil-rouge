@@ -30,7 +30,6 @@ class StudentProfile extends Model
         'languages' => 'array',
     ];
 
-    // ─── Relations ───────────────────────────────────────────────
 
     public function user()
     {
@@ -52,8 +51,8 @@ class StudentProfile extends Model
         return $this->hasManyThrough(
             Internship::class,
             Application::class,
-            'student_id',   // FK on applications
-            'application_id' // FK on internships
+            'student_id',   
+            'application_id' 
         );
     }
 }

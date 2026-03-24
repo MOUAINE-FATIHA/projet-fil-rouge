@@ -22,8 +22,6 @@ class Message extends Model
         'is_read' => 'boolean',
     ];
 
-    // ─── Relations ───────────────────────────────────────────────
-
     public function conversation()
     {
         return $this->belongsTo(Conversation::class);

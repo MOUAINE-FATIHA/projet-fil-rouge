@@ -38,7 +38,6 @@ class InternshipOffer extends Model
         'required_skills'      => 'array',
     ];
 
-    // ─── Relations ───────────────────────────────────────────────
 
     public function company()
     {
@@ -60,7 +59,6 @@ class InternshipOffer extends Model
         return $this->applications()->where('status', 'accepted');
     }
 
-    // ─── Scopes ──────────────────────────────────────────────────
 
     public function scopePublished($query)
     {
@@ -86,7 +84,6 @@ class InternshipOffer extends Model
         return $query->where('city', 'LIKE', "%{$city}%");
     }
 
-    // ─── Helpers ─────────────────────────────────────────────────
 
     public function isClosed(): bool
     {

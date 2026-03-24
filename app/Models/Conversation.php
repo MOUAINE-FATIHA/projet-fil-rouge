@@ -14,7 +14,6 @@ class Conversation extends Model
         'internship_id',
     ];
 
-    // ─── Relations ───────────────────────────────────────────────
 
     public function participants()
     {
@@ -38,7 +37,6 @@ class Conversation extends Model
         return $this->belongsTo(Internship::class);
     }
 
-    // ─── Helpers ─────────────────────────────────────────────────
 
     public function getUnreadCountForUser(User $user): int
     {
