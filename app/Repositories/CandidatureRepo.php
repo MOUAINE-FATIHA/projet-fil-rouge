@@ -8,7 +8,6 @@ use App\Repositories\Contracts\CandidatureContract;
 class CandidatureRepo implements CandidatureContract
 {
     public function __construct(private Candidature $model) {}
-
     public function parStagiaire(int $stagiaireId)
     {
         return $this->model
@@ -17,7 +16,6 @@ class CandidatureRepo implements CandidatureContract
             ->latest()
             ->paginate(10);
     }
-
     public function parOffre(int $offreId, string $statut = null)
     {
         return $this->model
