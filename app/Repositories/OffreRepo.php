@@ -16,7 +16,6 @@ class OffreRepo implements OffreContract
         if (!empty($filtres['domaine'])) {
             $query->where('domain', $filtres['domaine']);
         }
-
         if (!empty($filtres['ville'])) {
             $query->where('city', 'like', "%{$filtres['ville']}%");
         }
@@ -65,14 +64,12 @@ class OffreRepo implements OffreContract
     {
         return $this->model->create($donnees);
     }
-
     public function modifier(int $id, array $donnees)
     {
         $offre = $this->model->findOrFail($id);
         $offre->update($donnees);
         return $offre->fresh();
     }
-
     public function supprimer(int $id): bool
     {
         return $this->model->findOrFail($id)->delete();
