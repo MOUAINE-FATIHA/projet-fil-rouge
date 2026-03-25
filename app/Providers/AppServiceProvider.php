@@ -14,9 +14,7 @@ class AppServiceProvider extends ServiceProvider
         Offre::class       => OffrePolicy::class,
         Candidature::class => CandidaturePolicy::class,
     ];
-
     public function register(): void {}
-
     public function boot(): void
     {
         $this->registerPolicies();
