@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Providers;
-
 use App\Repositories\CandidatureRepo;
 use App\Repositories\Contracts\CandidatureContract;
 use App\Repositories\Contracts\OffreContract;
@@ -16,7 +15,6 @@ class RepositoryServiceProvider extends ServiceProvider
             OffreContract::class,
             OffreRepo::class
         );
-
         $this->app->bind(
             CandidatureContract::class,
             CandidatureRepo::class
