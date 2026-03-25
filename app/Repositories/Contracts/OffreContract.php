@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Repositories\Contracts;
-
 interface OffreContract
 {
     public function toutesOuvertes(array $filtres = []);
