@@ -6,7 +6,6 @@ use App\Repositories\Contracts\CandidatureContract;
 use App\Repositories\Contracts\OffreContract;
 use App\Repositories\OffreRepo;
 use Illuminate\Support\ServiceProvider;
-
 class RepositoryServiceProvider extends ServiceProvider
 {
     public function register(): void
