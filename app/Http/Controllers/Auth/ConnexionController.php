@@ -32,7 +32,6 @@ class ConnexionController extends Controller
         $request->session()->regenerate();
         return redirect()->intended(route('dashboard'));
     }
-
     public function deconnecter(Request $request)
     {
         Auth::logout();
