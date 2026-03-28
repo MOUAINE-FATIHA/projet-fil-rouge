@@ -29,9 +29,7 @@ class ConnexionController extends Controller
             Auth::logout();
             return back()->withErrors(['email' => 'Votre compte est désactivé.']);
         }
-
         $request->session()->regenerate();
-
         return redirect()->intended(route('dashboard'));
     }
 
