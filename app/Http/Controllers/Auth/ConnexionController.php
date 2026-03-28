@@ -12,7 +12,6 @@ class ConnexionController extends Controller
     {
         return view('auth.login');
     }
-
     public function connecter(Request $request)
     {
         $donnees = $request->validate([
