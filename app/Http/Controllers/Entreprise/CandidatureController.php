@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\Entreprise;
-
 use App\Http\Controllers\Controller;
 use App\Models\Candidature;
 use App\Models\Offre;
@@ -15,12 +13,10 @@ public function __construct(private CandidatureContract $candidatures) {}
     public function index(Offre $offre)
     {
         $this->verifierAppartenance($offre);
-
         $candidatures = $this->candidatures->parOffre(
             $offre->id,
             request('statut')
         );
-
         return view('entreprise.candidatures.index', compact('offre', 'candidatures'));
     }
 
@@ -41,11 +37,9 @@ public function __construct(private CandidatureContract $candidatures) {}
             422,
             'Plus de places disponibles pour cette offre.'
         );
-
         $donnees = $request->validate([
             'feedback' => ['nullable', 'string', 'max:2000'],
         ]);
-
         $this->candidatures->accepter($candidature->id, $donnees['feedback'] ?? null);
 
         return redirect()
