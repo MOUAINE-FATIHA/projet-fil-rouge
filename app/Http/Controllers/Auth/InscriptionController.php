@@ -16,11 +16,11 @@ class InscriptionController extends Controller
     public function inscrire(Request $request)
     {
         $donnees = $request->validate([
-            'name'     => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'email', 'unique:users,email'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'confirmed', Password::min(8)],
-            'role'     => ['required', 'in:stagiaire,entreprise'],
-            'phone'    => ['nullable', 'string', 'max:20'],
+            'role' => ['required', 'in:stagiaire,entreprise'],
+            'phone'=> ['nullable', 'string', 'max:20'],
         ]);
 
         $user = User::create($donnees);
