@@ -13,7 +13,6 @@ class InscriptionController extends Controller
     {
         return view('auth.register');
     }
-
     public function inscrire(Request $request)
     {
         $donnees = $request->validate([
