@@ -19,7 +19,6 @@ public function __construct(private CandidatureContract $candidatures) {}
         );
         return view('entreprise.candidatures.index', compact('offre', 'candidatures'));
     }
-
     public function show(Candidature $candidature)
     {
         $this->verifierAcces($candidature);
@@ -27,7 +26,6 @@ public function __construct(private CandidatureContract $candidatures) {}
 
         return view('entreprise.candidatures.show', compact('candidature'));
     }
-
     public function accepter(Request $request, Candidature $candidature)
     {
         $this->verifierAcces($candidature);
