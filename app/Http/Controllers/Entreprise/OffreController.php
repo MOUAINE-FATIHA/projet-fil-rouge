@@ -95,7 +95,6 @@ class OffreController extends Controller
         ]);
 
         $this->offres->modifier($offre->id, $donnees);
-
         return redirect()
             ->route('entreprise.offres.index')
             ->with('succes', 'Offre modifiée avec succès.');
@@ -110,7 +109,6 @@ class OffreController extends Controller
             ->route('entreprise.offres.index')
             ->with('succes', 'Offre supprimée.');
     }
-
     private function verifierAppartenance(Offre $offre): void
     {
         $entrepriseId = Auth::user()->profilEntreprise->id;
