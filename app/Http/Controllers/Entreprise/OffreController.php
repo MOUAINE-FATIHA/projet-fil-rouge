@@ -99,9 +99,7 @@ class OffreController extends Controller
             ->route('entreprise.offres.index')
             ->with('succes', 'Offre modifiée avec succès.');
     }
-
-    public function destroy(Offre $offre)
-    {
+    public function destroy(Offre $offre){
         $this->verifierAppartenance($offre);
         $this->offres->supprimer($offre->id);
 
