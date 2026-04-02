@@ -75,7 +75,6 @@ public function __construct(private CandidatureContract $candidatures) {}
         );
 
         $this->candidatures->retirer($candidature->id);
-
         return redirect()
             ->route('stagiaire.candidatures.index')
             ->with('succes', 'Candidature retirée.');
