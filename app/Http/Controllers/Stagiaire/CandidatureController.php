@@ -60,7 +60,6 @@ public function __construct(private CandidatureContract $candidatures) {}
             'cv_path'      => $cvPath,
             'status'       => 'pending',
         ]);
-
         return redirect()
             ->route('stagiaire.candidatures.index')
             ->with('succes', 'Candidature envoyée avec succès.');
@@ -69,7 +68,6 @@ public function __construct(private CandidatureContract $candidatures) {}
     public function retirer(Candidature $candidature)
     {
         $this->verifierAppartenance($candidature);
-
         abort_if(
             in_array($candidature->status, ['accepted', 'rejected']),
             422,
