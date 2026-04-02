@@ -16,21 +16,18 @@ public function __construct(private CandidatureContract $candidatures) {}
     {
         $stagiaireId = Auth::user()->profilStagiaire->id;
         $candidatures = $this->candidatures->parStagiaire($stagiaireId);
-
         return view('stagiaire.candidatures.index', compact('candidatures'));
     }
 
     public function create(Offre $offre)
     {
         abort_if($offre->estFermee(), 422, 'Cette offre n\'accepte plus de candidatures.');
-
         $stagiaireId = Auth::user()->profilStagiaire->id;
         abort_if(
             $this->candidatures->dejaPostule($stagiaireId, $offre->id),
             422,
             'Vous avez déjà postulé à cette offre.'
         );
-
         return view('stagiaire.candidatures.create', compact('offre'));
     }
 
@@ -48,7 +45,7 @@ public function __construct(private CandidatureContract $candidatures) {}
 
         $donnees = $request->validate([
             'cover_letter' => ['nullable', 'string', 'max:5000'],
-            'cv'           => ['nullable', 'file', 'mimes:pdf', 'max:5120'],
+            'cv'=> ['nullable', 'file', 'mimes:pdf', 'max:5120'],
         ]);
 
         $cvPath = null;
