@@ -64,7 +64,6 @@ public function __construct(private CandidatureContract $candidatures) {}
             ->route('stagiaire.candidatures.index')
             ->with('succes', 'Candidature envoyée avec succès.');
     }
-
     public function retirer(Candidature $candidature){
         $this->verifierAppartenance($candidature);
         abort_if(
