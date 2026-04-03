@@ -65,8 +65,7 @@ public function __construct(private CandidatureContract $candidatures) {}
             ->with('succes', 'Candidature envoyée avec succès.');
     }
 
-    public function retirer(Candidature $candidature)
-    {
+    public function retirer(Candidature $candidature){
         $this->verifierAppartenance($candidature);
         abort_if(
             in_array($candidature->status, ['accepted', 'rejected']),
