@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Stagiaire;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
