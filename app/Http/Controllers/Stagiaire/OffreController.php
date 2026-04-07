@@ -15,7 +15,6 @@ public function __construct(private OffreContract $offres) {}
         $offres = $this->offres->toutesOuvertes($request->only([
             'domaine', 'ville', 'type', 'recherche',
         ]));
-
         return view('stagiaire.offres.index', compact('offres'));
     }
     public function show(Offre $offre)
