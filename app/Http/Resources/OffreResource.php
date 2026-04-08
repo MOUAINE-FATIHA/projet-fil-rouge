@@ -21,15 +21,15 @@ class OffreResource extends JsonResource
             'gratification'        => $this->stipend,
             'competences'          => $this->required_skills ?? [],
             'niveau_requis'        => $this->required_level,
-            'places'               => $this->slots,
-            'statut'               => $this->status,
+            'places'=> $this->slots,
+            'statut'=> $this->status,
             'entreprise'           => [
                 'nom'     => $this->entreprise->company_name ?? '—',
                 'ville'   => $this->entreprise->city ?? null,
                 'secteur' => $this->entreprise->industry ?? null,
             ],
-            'nb_candidatures'      => $this->candidatures()->count(),
-            'created_at'           => $this->created_at->format('d/m/Y'),
+            'nb_candidatures' => $this->candidatures()->count(),
+            'created_at' => $this->created_at->format('d/m/Y'),
         ];
     }
 }
