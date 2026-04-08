@@ -10,9 +10,9 @@ class OffreResource extends JsonResource
         return [
             'id'=> $this->id,
             'titre' => $this->title,
-            'description'          => $this->description,
-            'domaine'              => $this->domain,
-            'type'                 => $this->type,
+            'description'=> $this->description,
+            'domaine' => $this->domain,
+            'type' => $this->type,
             'duree_mois'           => $this->duration_months,
             'date_debut'           => $this->start_date?->format('d/m/Y'),
             'date_limite'          => $this->application_deadline?->format('d/m/Y'),
