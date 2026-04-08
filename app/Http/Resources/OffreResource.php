@@ -8,8 +8,8 @@ class OffreResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'                   => $this->id,
-            'titre'                => $this->title,
+            'id'=> $this->id,
+            'titre' => $this->title,
             'description'          => $this->description,
             'domaine'              => $this->domain,
             'type'                 => $this->type,
