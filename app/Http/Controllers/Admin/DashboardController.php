@@ -28,7 +28,6 @@ class DashboardController extends Controller
             ->latest()
             ->take(5)
             ->get();
-
         return view('admin.dashboard', compact('stats', 'entreprises_recentes'));
     }
 
@@ -42,7 +41,6 @@ class DashboardController extends Controller
             )
             ->latest()
             ->paginate(15);
-
         return view('admin.utilisateurs', compact('utilisateurs'));
     }
 
