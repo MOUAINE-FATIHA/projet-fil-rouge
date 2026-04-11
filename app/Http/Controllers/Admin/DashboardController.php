@@ -63,7 +63,6 @@ class DashboardController extends Controller
             ->when($request->statut, fn ($q) => $q->where('validation_status', $request->statut))
             ->latest()
             ->paginate(15);
-
         return view('admin.entreprises', compact('entreprises'));
     }
 
@@ -74,7 +73,6 @@ class DashboardController extends Controller
             'validated_at'      => now(),
             'rejection_reason'  => null,
         ]);
-
         return back()->with('succes', "Entreprise « {$entreprise->company_name} » validée avec succès.");
     }
 
