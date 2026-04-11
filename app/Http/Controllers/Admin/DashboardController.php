@@ -38,8 +38,7 @@ class DashboardController extends Controller
             ->when($request->recherche, fn ($q) => $q
                 ->where('name', 'like', "%{$request->recherche}%")
                 ->orWhere('email', 'like', "%{$request->recherche}%")
-            )
-            ->latest()
+            )->latest()
             ->paginate(15);
         return view('admin.utilisateurs', compact('utilisateurs'));
     }
