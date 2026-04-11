@@ -49,11 +49,8 @@ class DashboardController extends Controller
     public function toggleUtilisateur(User $user)
     {
         abort_if($user->estAdmin(), 403, 'Impossible de modifier un administrateur.');
-
         $user->update(['is_active' => !$user->is_active]);
-
         $statut = $user->is_active ? 'activé' : 'désactivé';
-
         return back()->with('succes', "Compte {$statut} avec succès.");
     }
 
