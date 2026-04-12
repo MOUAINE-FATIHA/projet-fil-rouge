@@ -42,7 +42,6 @@ class DashboardController extends Controller
             ->paginate(15);
         return view('admin.utilisateurs', compact('utilisateurs'));
     }
-
     public function toggleUtilisateur(User $user)
     {
         abort_if($user->estAdmin(), 403, 'Impossible de modifier un administrateur.');
