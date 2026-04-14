@@ -50,6 +50,7 @@ class DashboardController extends Controller
         return back()->with('succes', "Compte {$statut} avec succès.");
     }
 
+    
     public function entreprises(Request $request)
     {
         $entreprises = ProfilEntreprise::with('user')
