@@ -35,12 +35,10 @@ class CandidatureApiController extends Controller
     public function mesStages(Request $request): JsonResponse
     {
         $stagiaire = $request->user()->profilStagiaire;
-
         $stages = $stagiaire->stages()
             ->with(['candidature.offre.entreprise'])
             ->latest()
             ->get();
-
         return response()->json([
             'success' => true,
             'data'    => StageResource::collection($stages),
