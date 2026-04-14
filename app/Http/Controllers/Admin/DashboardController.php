@@ -50,7 +50,7 @@ class DashboardController extends Controller
         return back()->with('succes', "Compte {$statut} avec succès.");
     }
 
-    
+
     public function entreprises(Request $request)
     {
         $entreprises = ProfilEntreprise::with('user')
@@ -83,6 +83,7 @@ class DashboardController extends Controller
 
         return back()->with('succes', "Entreprise « {$entreprise->company_name} » rejetée.");
     }
+
     public function stages()
     {
         $stages = Stage::with([
@@ -101,7 +102,6 @@ class DashboardController extends Controller
         ]);
 
         $stage->update(['supervisor_id' => $donnees['supervisor_id']]);
-
         $encadrant = \App\Models\ProfilEncadrant::find($donnees['supervisor_id']);
         $encadrant->user->notify(
             new \App\Notifications\StageAssigne($stage->fresh('candidature.offre.entreprise', 'candidature.stagiaire.user'))
