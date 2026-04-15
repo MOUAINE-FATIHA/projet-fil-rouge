@@ -23,7 +23,6 @@ class OffreApiController extends Controller
         $offres = $this->offres->toutesOuvertes($request->only([
             'domaine', 'ville', 'type', 'recherche',
         ]));
-
         return response()->json([
             'success' => true,
             'data'    => OffreResource::collection($offres->items()),
