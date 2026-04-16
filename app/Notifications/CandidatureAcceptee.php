@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Notifications;
-
 use App\Models\Candidature;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
