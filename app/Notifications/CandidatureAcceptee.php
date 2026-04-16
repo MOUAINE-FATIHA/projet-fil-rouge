@@ -17,7 +17,7 @@ class CandidatureAcceptee extends Notification
     {
         return [
             'type' => 'candidature_acceptee',
-            'titre'      => 'Candidature acceptée !',
+            'titre'=> 'Candidature acceptée !',
             'message'    => "Votre candidature pour le poste \"{$this->candidature->offre->title}\" a été acceptée par {$this->candidature->offre->entreprise->company_name}.",
             'url'        => '/stagiaire/candidatures',
             'offre_id'   => $this->candidature->offer_id,
