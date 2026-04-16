@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Providers;
-
 use App\Models\Candidature;
 use App\Models\Offre;
 use App\Policies\CandidaturePolicy;
