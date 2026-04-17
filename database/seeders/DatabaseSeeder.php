@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
-        // ── Encadrant ─────────────────────────────────────────────────
+        // ── Encadrant 
         $encadrantUser = User::create([
             'name'              => 'Prof. Hassan Alami',
             'email'             => 'encadrant@stageconnect.ma',
@@ -43,7 +43,7 @@ class DatabaseSeeder extends Seeder
             'max_students'   => 8,
         ]);
 
-        // ── Entreprise ───────────────────────────────────────────
+        // ── Entreprise 
         $entrepriseUser = User::create([
             'name'              => 'TechMaroc Solutions',
             'email'             => 'entreprise@stageconnect.ma',
