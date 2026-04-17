@@ -145,7 +145,7 @@ class DatabaseSeeder extends Seeder
             'graduation_year' => 2025,
         ]);
 
-        // ── Candidature acceptée → stage créé ────────────────────
+        // ── Candidature acceptée: stage créé
         $candidature = Candidature::create([
             'student_id'   => $stagiaire1->id,
             'offer_id'     => $offre1->id,
@@ -160,7 +160,7 @@ class DatabaseSeeder extends Seeder
             'status'            => 'not_started',
         ]);
 
-        // ── Candidature en attente ────────────────────────────────
+        // ── Candidature en attente 
         Candidature::create([
             'student_id'   => $stagiaire2->id,
             'offer_id'     => $offre2->id,
