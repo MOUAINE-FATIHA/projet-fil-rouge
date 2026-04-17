@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // ── Admin ────────────────────────────────────────────────
+        //  Admin 
         User::create([
             'name'              => 'Admin StageConnect',
             'email'             => 'admin@stageconnect.ma',
