@@ -65,7 +65,7 @@ class DatabaseSeeder extends Seeder
             'validated_at'      => now(),
         ]);
 
-        // ── Offres ───────────────────────────────────────────────
+        // ── Offres 
         $offre1 = Offre::create([
             'company_id'           => $entreprise->id,
             'title'                => 'Développeur Full Stack Laravel / Vue.js',
@@ -102,7 +102,7 @@ class DatabaseSeeder extends Seeder
             'status'               => 'published',
         ]);
 
-        // ── Stagiaires ───────────────────────────────────────────
+        // ── Stagiaires 
         $stagiaireUser1 = User::create([
             'name'              => 'Fatiha Mouaine',
             'email'             => 'stagiaire@stageconnect.ma',
