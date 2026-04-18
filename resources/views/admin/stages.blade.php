@@ -71,7 +71,7 @@
                     'in_progress' => 'badge-blue',
                     'completed'   => 'badge-accepted',
                     'interrupted' => 'badge-rejected',
-                    default       => 'badge-gray',
+                    default => 'badge-gray',
                 };
                 $bLabel = match($stage->status) {
                     'not_started' => 'Non commencé',
