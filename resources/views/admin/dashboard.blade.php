@@ -49,11 +49,11 @@
     {{-- Stats --}}
     <div class="grid grid-cols-3 gap-4 mb-8">
         @foreach([
-            ['label' => 'Stagiaires',         'value' => $stats['stagiaires'],   'color' => '#60a5fa'],
-            ['label' => 'Entreprises',         'value' => $stats['entreprises'],  'color' => '#60a5fa'],
-            ['label' => 'Offres publiées',     'value' => $stats['offres'],       'color' => '#60a5fa'],
-            ['label' => 'Candidatures',        'value' => $stats['candidatures'], 'color' => '#60a5fa'],
-            ['label' => 'Stages actifs',       'value' => $stats['stages'],       'color' => '#10B981'],
+            ['label' => 'Stagiaires','value' => $stats['stagiaires'],   'color' => '#60a5fa'],
+            ['label' => 'Entreprises','value' => $stats['entreprises'],  'color' => '#60a5fa'],
+            ['label' => 'Offres publiées', 'value' => $stats['offres'],       'color' => '#60a5fa'],
+            ['label' => 'Candidatures',  'value' => $stats['candidatures'], 'color' => '#60a5fa'],
+            ['label' => 'Stages actifs',    'value' => $stats['stages'],       'color' => '#10B981'],
             ['label' => 'En attente validation','value' => $stats['en_attente'],  'color' => '#F59E0B'],
         ] as $stat)
             <div class="card-dark rounded-2xl p-5">
@@ -62,6 +62,7 @@
             </div>
         @endforeach
     </div>
+
 
     {{-- Entreprises en attente --}}
     @if($entreprises_recentes->count() > 0)
