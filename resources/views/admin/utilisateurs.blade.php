@@ -32,6 +32,7 @@
     </a>
 @endsection
 
+
 @section('contenu')
 
     <div class="mb-8">
