@@ -59,13 +59,13 @@
                     'pending'  => 'badge-pending',
                     'approved' => 'badge-accepted',
                     'rejected' => 'badge-rejected',
-                    default    => 'badge-gray',
+                    default => 'badge-gray',
                 };
                 $bLabel = match($entreprise->validation_status) {
                     'pending'  => 'En attente',
                     'approved' => 'Validée',
                     'rejected' => 'Rejetée',
-                    default    => $entreprise->validation_status,
+                    default => $entreprise->validation_status,
                 };
             @endphp
             <div class="card-dark rounded-2xl p-5">
