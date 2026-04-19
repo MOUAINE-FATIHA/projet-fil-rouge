@@ -43,14 +43,14 @@
                     'reviewing' => 'badge-blue',
                     'accepted'  => 'badge-accepted',
                     'rejected'  => 'badge-rejected',
-                    default     => 'badge-gray',
+                    default=> 'badge-gray',
                 };
                 $badgeLabel = match($candidature->status) {
                     'pending'   => 'En attente',
                     'reviewing' => 'En cours',
                     'accepted'  => 'Acceptée',
                     'rejected'  => 'Refusée',
-                    default     => $candidature->status,
+                    default => $candidature->status,
                 };
             @endphp
             <div class="card-dark rounded-2xl p-5">
