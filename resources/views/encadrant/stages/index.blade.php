@@ -26,14 +26,14 @@
                     'in_progress' => 'badge-blue',
                     'completed'   => 'badge-accepted',
                     'interrupted' => 'badge-rejected',
-                    default       => 'badge-gray',
+                    default  => 'badge-gray',
                 };
                 $bLabel = match($stage->status) {
                     'not_started' => 'Non commencé',
                     'in_progress' => 'En cours',
                     'completed'   => 'Terminé',
                     'interrupted' => 'Interrompu',
-                    default       => $stage->status,
+                    default => $stage->status,
                 };
             @endphp
 
@@ -104,6 +104,7 @@
         @endforelse
     </div>
 
+    
     @if($stages->hasPages())
         <div class="mt-8 flex justify-center">{{ $stages->links() }}</div>
     @endif
