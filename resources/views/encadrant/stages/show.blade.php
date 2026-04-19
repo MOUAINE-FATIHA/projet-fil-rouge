@@ -42,7 +42,6 @@
                     </p>
                 </div>
             </div>
-
             @if($stage->candidature->stagiaire->skills)
                 <div class="flex flex-wrap gap-2">
                     @foreach($stage->candidature->stagiaire->skills as $skill)
