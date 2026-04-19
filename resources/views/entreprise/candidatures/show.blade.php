@@ -64,6 +64,7 @@
             </div>
         @endif
 
+
         {{-- CV --}}
         @if($candidature->cv_path)
             <div class="card-dark rounded-2xl p-6">
@@ -110,13 +111,13 @@
                 $bClass = match($candidature->status) {
                     'accepted'  => 'badge-accepted',
                     'rejected'  => 'badge-rejected',
-                    default     => 'badge-gray',
+                    default => 'badge-gray',
                 };
                 $bLabel = match($candidature->status) {
                     'accepted'  => 'Candidature acceptée',
                     'rejected'  => 'Candidature refusée',
                     'withdrawn' => 'Candidature retirée',
-                    default     => $candidature->status,
+                    default => $candidature->status,
                 };
             @endphp
             <div class="{{ $bClass }} rounded-2xl px-5 py-4">
