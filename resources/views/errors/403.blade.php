@@ -13,6 +13,8 @@
             background-size: 28px 28px;
         }
     </style>
+
+    
 </head>
 <body class="bg-[#0A0F1E] dot-grid min-h-screen flex items-center justify-center text-white">
     <div class="fixed top-0 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full blur-3xl pointer-events-none"
