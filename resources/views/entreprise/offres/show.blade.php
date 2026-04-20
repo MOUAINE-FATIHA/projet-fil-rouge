@@ -17,8 +17,8 @@
         <a href="{{ route('entreprise.offres.index') }}" class="text-sm text-white/30 hover:text-white transition">Retour</a>
     </div>
 
-    <div class="max-w-2xl space-y-5">
 
+    <div class="max-w-2xl space-y-5">
         {{-- En-tête --}}
         <div class="card-dark rounded-2xl p-6">
             <div class="flex items-start justify-between gap-4">
