@@ -35,11 +35,11 @@
                     'published' => 'badge-accepted',
                     'draft'     => 'badge-gray',
                     'closed'    => 'badge-rejected',
-                    default     => 'badge-gray',
+                    default => 'badge-gray',
                 };
                 $badgeLabel = match($offre->status) {
                     'published' => 'Publiée',
-                    'draft'     => 'Brouillon',
+                    'draft'  => 'Brouillon',
                     'closed'    => 'Fermée',
                     default     => $offre->status,
                 };
