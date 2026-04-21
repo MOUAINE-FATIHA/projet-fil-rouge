@@ -25,13 +25,11 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { font-family: 'DM Sans', sans-serif; }
-
         .glass {
             background: rgba(255,255,255,0.03);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255,255,255,0.07);
         }
-
         .card-dark {
             background: #111827;
             border: 1px solid rgba(255,255,255,0.06);
