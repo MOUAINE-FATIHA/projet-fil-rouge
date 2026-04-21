@@ -102,7 +102,7 @@ Route::middleware(['auth', 'role:encadrant'])
         Route::get('/stages/{stage}',                  [\App\Http\Controllers\Encadrant\StageController::class, 'show'])->name('stages.show');
         Route::post('/stages/{stage}/compte-rendu',    [\App\Http\Controllers\Encadrant\StageController::class, 'compteRendu'])->name('stages.compte-rendu');
     });
-    
+
 Route::post('/stages/{stage}/assigner-encadrant', 
     [\App\Http\Controllers\Admin\DashboardController::class, 'assignerEncadrant']
 )->name('stages.assigner-encadrant');
@@ -112,6 +112,8 @@ Route::post('/notifications/marquer-lues', function () {
         auth()->user()->unreadNotifications->markAsRead();
         return back();
     })->middleware('auth')->name('notifications.marquer-lues');
+
+    
 // ── API JSON ──────────────────────────────────────────────────
 Route::prefix('api')->name('api.')->group(function () {
 
