@@ -69,6 +69,7 @@
         }
     </style>
 </head>
+
 <body class="bg-dark min-h-screen dot-grid">
 
     {{-- Lueur d'ambiance --}}
