@@ -63,7 +63,6 @@
             box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
         }
 
-        /* Grille de points en fond */
         .dot-grid {
             background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
             background-size: 28px 28px;
