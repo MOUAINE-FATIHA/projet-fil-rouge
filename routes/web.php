@@ -113,9 +113,10 @@ Route::post('/notifications/marquer-lues', function () {
         return back();
     })->middleware('auth')->name('notifications.marquer-lues');
 
-    
+
 // ── API JSON ──────────────────────────────────────────────────
 Route::prefix('api')->name('api.')->group(function () {
+
 
     // Offres publiques
     Route::get('/offres',        [\App\Http\Controllers\Api\OffreApiController::class, 'index'])->name('offres.index');
