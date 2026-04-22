@@ -76,7 +76,7 @@ Route::get('/dashboard', function () {
     };
 })->middleware('auth')->name('dashboard');
 
-// ── Espace Admin ──────────────────────────────────────────────
+// ── Espace Admin 
 Route::middleware(['auth', 'role:admin'])
     ->prefix('admin')
     ->name('admin.')
@@ -93,7 +93,7 @@ Route::middleware(['auth', 'role:admin'])
 
         Route::get('/stages', [\App\Http\Controllers\Admin\DashboardController::class, 'stages'])->name('stages');
     });
-// ── Espace Encadrant ──────────────────────────────────────────
+// ── Espace Encadrant 
 Route::middleware(['auth', 'role:encadrant'])
     ->prefix('encadrant')
     ->name('encadrant.')
@@ -114,7 +114,7 @@ Route::post('/notifications/marquer-lues', function () {
     })->middleware('auth')->name('notifications.marquer-lues');
 
 
-// ── API JSON ──────────────────────────────────────────────────
+//  API JSON 
 Route::prefix('api')->name('api.')->group(function () {
 
 
@@ -122,7 +122,6 @@ Route::prefix('api')->name('api.')->group(function () {
 Route::get('/offres', [\App\Http\Controllers\Api\OffreApiController::class, 'index'])->name('offres.index');
 Route::get('/offres/{id}',   [\App\Http\Controllers\Api\OffreApiController::class, 'show'])->name('offres.show');
 
-// Routes protégées
 Route::middleware('auth')->group(function () {
     Route::get('/stagiaire/candidatures', [\App\Http\Controllers\Api\CandidatureApiController::class, 'mesCandidatures'])->name('stagiaire.candidatures');
     Route::get('/stagiaire/stages',       [\App\Http\Controllers\Api\CandidatureApiController::class, 'mesStages'])->name('stagiaire.stages');
