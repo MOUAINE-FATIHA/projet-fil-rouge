@@ -118,14 +118,14 @@ Route::post('/notifications/marquer-lues', function () {
 Route::prefix('api')->name('api.')->group(function () {
 
 
-    // Offres publiques
-    Route::get('/offres',        [\App\Http\Controllers\Api\OffreApiController::class, 'index'])->name('offres.index');
-    Route::get('/offres/{id}',   [\App\Http\Controllers\Api\OffreApiController::class, 'show'])->name('offres.show');
+// Offres publiques
+Route::get('/offres', [\App\Http\Controllers\Api\OffreApiController::class, 'index'])->name('offres.index');
+Route::get('/offres/{id}',   [\App\Http\Controllers\Api\OffreApiController::class, 'show'])->name('offres.show');
 
-    // Routes protégées
-    Route::middleware('auth')->group(function () {
-        Route::get('/stagiaire/candidatures', [\App\Http\Controllers\Api\CandidatureApiController::class, 'mesCandidatures'])->name('stagiaire.candidatures');
-        Route::get('/stagiaire/stages',       [\App\Http\Controllers\Api\CandidatureApiController::class, 'mesStages'])->name('stagiaire.stages');
-        Route::get('/entreprise/candidatures',[\App\Http\Controllers\Api\CandidatureApiController::class, 'candidaturesEntreprise'])->name('entreprise.candidatures');
-    });
+// Routes protégées
+Route::middleware('auth')->group(function () {
+    Route::get('/stagiaire/candidatures', [\App\Http\Controllers\Api\CandidatureApiController::class, 'mesCandidatures'])->name('stagiaire.candidatures');
+    Route::get('/stagiaire/stages',       [\App\Http\Controllers\Api\CandidatureApiController::class, 'mesStages'])->name('stagiaire.stages');
+    Route::get('/entreprise/candidatures',[\App\Http\Controllers\Api\CandidatureApiController::class, 'candidaturesEntreprise'])->name('entreprise.candidatures');
+});
 });
