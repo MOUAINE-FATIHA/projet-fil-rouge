@@ -65,7 +65,7 @@ Route::middleware(['auth', 'role:entreprise'])
         Route::post('/candidatures/{candidature}/refuser',  [EntrepriseCandidatureController::class, 'refuser'])->name('candidatures.refuser');
     });
 
-// ── Dashboard (redirige selon le rôle) ───────────────────────
+// ── Dashboard (redirige selon le rôle) 
 Route::get('/dashboard', function () {
     return match (auth()->user()->role) {
         'stagiaire'  => redirect()->route('stagiaire.candidatures.index'),
