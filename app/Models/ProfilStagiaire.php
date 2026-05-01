@@ -23,6 +23,7 @@ class ProfilStagiaire extends Model
         'cv_path',
         'linkedin_url',
         'github_url',
+        'portfolio_url',
         'graduation_year',
     ];
 

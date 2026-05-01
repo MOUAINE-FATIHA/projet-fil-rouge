@@ -46,9 +46,16 @@ class OffreController extends Controller
             'is_remote'            => ['boolean'],
             'stipend'              => ['nullable', 'numeric', 'min:0'],
             'required_skills'      => ['nullable', 'array'],
+            'required_skills.*'    => ['nullable', 'string', 'max:80'],
             'required_level'       => ['nullable', 'string'],
             'slots'                => ['integer', 'min:1'],
         ]);
+
+        $donnees['is_remote'] = $request->boolean('is_remote');
+        $donnees['required_skills'] = array_values(array_filter(
+            $donnees['required_skills'] ?? [],
+            fn ($skill) => filled($skill)
+        ));
 
         $this->offres->creer(array_merge($donnees, [
             'company_id' => $entreprise->id,

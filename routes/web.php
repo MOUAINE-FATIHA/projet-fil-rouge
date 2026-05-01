@@ -7,19 +7,19 @@ use App\Http\Controllers\Entreprise\OffreController as EntrepriseOffreController
 use App\Http\Controllers\Stagiaire\CandidatureController as StagiaireCandidatureController;
 use App\Http\Controllers\Stagiaire\OffreController as StagiaireOffreController;
 use App\Http\Controllers\Stagiaire\StageController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-// ── Page d'accueil ────────────────────────────────────────────
 Route::get('/', function () {
     return view('welcome');
 })->name('accueil');
 
-// ── Authentification ──────────────────────────────────────────
+// Auth
 Route::middleware('guest')->group(function () {
-    Route::get('/connexion',  [ConnexionController::class, 'index'])->name('login');
+    Route::get('/connexion', [ConnexionController::class, 'index'])->name('login');
     Route::post('/connexion', [ConnexionController::class, 'connecter'])->name('login.store');
 
-    Route::get('/inscription',  [InscriptionController::class, 'index'])->name('register');
+    Route::get('/inscription', [InscriptionController::class, 'index'])->name('register');
     Route::post('/inscription', [InscriptionController::class, 'inscrire'])->name('register.store');
 });
 
@@ -27,45 +27,52 @@ Route::post('/deconnexion', [ConnexionController::class, 'deconnecter'])
     ->middleware('auth')
     ->name('logout');
 
-// ── Offres publiques (sans connexion) ─────────────────────────
-Route::get('/offres',         [StagiaireOffreController::class, 'index'])->name('offres.index');
+Route::middleware('auth')->group(function () {
+    Route::get('/profil', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profil', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profil/mot-de-passe', [ProfileController::class, 'updatePassword'])->name('profile.password');
+});
+
+Route::get('/offres', [StagiaireOffreController::class, 'index'])->name('offres.index');
 Route::get('/offres/{offre}', [StagiaireOffreController::class, 'show'])->name('offres.show');
 
-// ── Espace Stagiaire ──────────────────────────────────────────
 Route::middleware(['auth', 'role:stagiaire'])
     ->prefix('stagiaire')
     ->name('stagiaire.')
     ->group(function () {
 
-        Route::get('/candidatures',                  [StagiaireCandidatureController::class, 'index'])->name('candidatures.index');
-        Route::get('/offres/{offre}/postuler',       [StagiaireCandidatureController::class, 'create'])->name('candidatures.create');
-        Route::post('/offres/{offre}/postuler',      [StagiaireCandidatureController::class, 'store'])->name('candidatures.store');
+        Route::get('/candidatures', [StagiaireCandidatureController::class, 'index'])->name('candidatures.index');
+        Route::get('/offres/{offre}/postuler', [StagiaireCandidatureController::class, 'create'])->name('candidatures.create');
+        Route::post('/offres/{offre}/postuler', [StagiaireCandidatureController::class, 'store'])->name('candidatures.store');
         Route::delete('/candidatures/{candidature}', [StagiaireCandidatureController::class, 'retirer'])->name('candidatures.retirer');
 
         Route::get('/stages', [StageController::class, 'index'])->name('stages.index');
     });
 
-// ── Espace Entreprise ─────────────────────────────────────────
 Route::middleware(['auth', 'role:entreprise'])
     ->prefix('entreprise')
     ->name('entreprise.')
     ->group(function () {
 
-        Route::get('/offres/nouvelle',     [EntrepriseOffreController::class, 'create'])->name('offres.create');
-        Route::get('/offres',              [EntrepriseOffreController::class, 'index'])->name('offres.index');
-        Route::post('/offres',             [EntrepriseOffreController::class, 'store'])->name('offres.store');
-        Route::get('/offres/{offre}',      [EntrepriseOffreController::class, 'show'])->name('offres.show');
+        Route::get('/offres/nouvelle', [EntrepriseOffreController::class, 'create'])->name('offres.create');
+        Route::get('/offres', [EntrepriseOffreController::class, 'index'])->name('offres.index');
+        Route::post('/offres',[EntrepriseOffreController::class, 'store'])->name('offres.store');
+        Route::get('/offres/{offre}', [EntrepriseOffreController::class, 'show'])->name('offres.show');
         Route::get('/offres/{offre}/edit', [EntrepriseOffreController::class, 'edit'])->name('offres.edit');
-        Route::put('/offres/{offre}',      [EntrepriseOffreController::class, 'update'])->name('offres.update');
-        Route::delete('/offres/{offre}',   [EntrepriseOffreController::class, 'destroy'])->name('offres.destroy');
+        Route::put('/offres/{offre}',[EntrepriseOffreController::class, 'update'])->name('offres.update');
+        Route::delete('/offres/{offre}', [EntrepriseOffreController::class, 'destroy'])->name('offres.destroy');
 
-        Route::get('/offres/{offre}/candidatures',      [EntrepriseCandidatureController::class, 'index'])->name('candidatures.index');
-        Route::get('/candidatures/{candidature}',       [EntrepriseCandidatureController::class, 'show'])->name('candidatures.show');
+        Route::get('/candidatures', [EntrepriseCandidatureController::class, 'toutes'])->name('candidatures.toutes');
+        Route::get('/offres/{offre}/candidatures',[EntrepriseCandidatureController::class, 'index'])->name('candidatures.index');
+        Route::get('/candidatures/{candidature}', [EntrepriseCandidatureController::class, 'show'])->name('candidatures.show');
+        Route::get('/candidatures/{candidature}/cv', [EntrepriseCandidatureController::class, 'telechargerCv'])->name('candidatures.cv');
+        Route::get('/candidatures/{candidature}/convention-preparee', [EntrepriseCandidatureController::class, 'telechargerConventionPreparee'])->name('candidatures.convention.preparee');
+        Route::get('/candidatures/{candidature}/convention', [EntrepriseCandidatureController::class, 'telechargerConvention'])->name('candidatures.convention.download');
+        Route::post('/candidatures/{candidature}/convention', [EntrepriseCandidatureController::class, 'uploadConvention'])->name('candidatures.convention.upload');
         Route::post('/candidatures/{candidature}/accepter', [EntrepriseCandidatureController::class, 'accepter'])->name('candidatures.accepter');
         Route::post('/candidatures/{candidature}/refuser',  [EntrepriseCandidatureController::class, 'refuser'])->name('candidatures.refuser');
     });
 
-// ── Dashboard (redirige selon le rôle) 
 Route::get('/dashboard', function () {
     return match (auth()->user()->role) {
         'stagiaire'  => redirect()->route('stagiaire.candidatures.index'),
@@ -76,7 +83,6 @@ Route::get('/dashboard', function () {
     };
 })->middleware('auth')->name('dashboard');
 
-// ── Espace Admin 
 Route::middleware(['auth', 'role:admin'])
     ->prefix('admin')
     ->name('admin.')
@@ -92,39 +98,64 @@ Route::middleware(['auth', 'role:admin'])
         Route::post('/entreprises/{entreprise}/rejeter', [\App\Http\Controllers\Admin\DashboardController::class, 'rejeterEntreprise'])->name('entreprises.rejeter');
 
         Route::get('/stages', [\App\Http\Controllers\Admin\DashboardController::class, 'stages'])->name('stages');
+        Route::get('/stages/{stage}/convention', [\App\Http\Controllers\Admin\DashboardController::class, 'convention'])->name('stages.convention');
+        Route::post('/stages/{stage}/convention', [\App\Http\Controllers\Admin\DashboardController::class, 'preparerConvention'])->name('stages.convention.preparer');
     });
-// ── Espace Encadrant 
+//espace d''encadrant 
 Route::middleware(['auth', 'role:encadrant'])
     ->prefix('encadrant')
     ->name('encadrant.')
     ->group(function () {
-        Route::get('/stages',                          [\App\Http\Controllers\Encadrant\StageController::class, 'index'])->name('stages.index');
-        Route::get('/stages/{stage}',                  [\App\Http\Controllers\Encadrant\StageController::class, 'show'])->name('stages.show');
+        Route::get('/stages', [\App\Http\Controllers\Encadrant\StageController::class, 'index'])->name('stages.index');
+        Route::get('/stages/{stage}',[\App\Http\Controllers\Encadrant\StageController::class, 'show'])->name('stages.show');
+        Route::get('/stages/{stage}/convention', [\App\Http\Controllers\Encadrant\StageController::class, 'telechargerConvention'])->name('stages.convention.download');
+        Route::post('/stages/{stage}/convention/valider', [\App\Http\Controllers\Encadrant\StageController::class, 'validerConvention'])->name('stages.convention.valider');
         Route::post('/stages/{stage}/compte-rendu',    [\App\Http\Controllers\Encadrant\StageController::class, 'compteRendu'])->name('stages.compte-rendu');
     });
 
 Route::post('/stages/{stage}/assigner-encadrant', 
     [\App\Http\Controllers\Admin\DashboardController::class, 'assignerEncadrant']
-)->name('stages.assigner-encadrant');
+)->middleware(['auth', 'role:admin'])->name('stages.assigner-encadrant');
 
-// Notifications
+//notifs
 Route::post('/notifications/marquer-lues', function () {
         auth()->user()->unreadNotifications->markAsRead();
         return back();
     })->middleware('auth')->name('notifications.marquer-lues');
 
+Route::get('/notifications/liste', function () {
+    return [
+        'non_lues' => auth()->user()->unreadNotifications()->count(),
+        'notifications' => auth()->user()->notifications()
+            ->latest()
+            ->take(8)
+            ->get()
+            ->map(fn ($notification) => [
+                'id' => $notification->id,
+                'titre' => $notification->data['titre'] ?? '',
+                'message' => $notification->data['message'] ?? '',
+                'date' => $notification->created_at->diffForHumans(),
+                'lue' => !is_null($notification->read_at),
+                'url' => route('notifications.ouvrir', $notification->id),
+            ]),
+    ];
+})->middleware('auth')->name('notifications.liste');
 
-//  API JSON 
+Route::get('/notifications/{notification}/ouvrir', function (string $notification) {
+    $notification = auth()->user()->notifications()->where('id', $notification)->firstOrFail();
+    $notification->markAsRead();
+
+    return redirect($notification->data['url'] ?? route('dashboard'));
+})->middleware('auth')->name('notifications.ouvrir');
+
+
 Route::prefix('api')->name('api.')->group(function () {
-
-
-// Offres publiques
 Route::get('/offres', [\App\Http\Controllers\Api\OffreApiController::class, 'index'])->name('offres.index');
 Route::get('/offres/{id}',   [\App\Http\Controllers\Api\OffreApiController::class, 'show'])->name('offres.show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/stagiaire/candidatures', [\App\Http\Controllers\Api\CandidatureApiController::class, 'mesCandidatures'])->name('stagiaire.candidatures');
-    Route::get('/stagiaire/stages',       [\App\Http\Controllers\Api\CandidatureApiController::class, 'mesStages'])->name('stagiaire.stages');
+    Route::get('/stagiaire/stages', [\App\Http\Controllers\Api\CandidatureApiController::class, 'mesStages'])->name('stagiaire.stages');
     Route::get('/entreprise/candidatures',[\App\Http\Controllers\Api\CandidatureApiController::class, 'candidaturesEntreprise'])->name('entreprise.candidatures');
 });
 });

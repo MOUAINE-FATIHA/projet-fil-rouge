@@ -24,7 +24,7 @@
         <a href="{{ route('offres.index') }}" class="text-sm text-white/30 hover:text-white transition">Retour aux offres</a>
     </div>
 
-    <p class="font-semibold text-sm mb-1" style="color:#60a5fa;">{{ $offre->title }}</p>
+    <p class="font-semibold text-sm mb-1" style="color:#FDD400;">{{ $offre->title }}</p>
     <h1 class="text-2xl font-extrabold text-white mb-1">Postuler à l'offre</h1>
     <p class="text-white/40 text-sm mb-8">Complétez votre dossier pour maximiser vos chances.</p>
 
@@ -35,7 +35,7 @@
         {{-- Lettre de motivation --}}
         <div class="card-dark rounded-2xl p-6">
             <h2 class="font-bold text-white flex items-center gap-2 mb-1">
-                <svg class="w-4 h-4" style="color:#60a5fa;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-4 h-4" style="color:#FDD400;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                 </svg>
@@ -51,7 +51,7 @@
         {{-- CV --}}
         <div class="card-dark rounded-2xl p-6">
             <h2 class="font-bold text-white flex items-center gap-2 mb-4">
-                <svg class="w-4 h-4" style="color:#60a5fa;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-4 h-4" style="color:#FDD400;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
@@ -62,14 +62,14 @@
                        onchange="document.getElementById('cvNom').textContent = this.files[0]?.name || ''">
                 <div class="flex flex-col items-center gap-3">
                     <div class="w-12 h-12 rounded-full flex items-center justify-center" style="background:rgba(37,99,235,0.1);">
-                        <svg class="w-6 h-6" style="color:#2563EB;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6" style="color:#FDD400;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                   d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
                         </svg>
                     </div>
                     <p class="text-sm text-white/50">Cliquez pour téléverser</p>
                     <p class="text-xs text-white/20">PDF uniquement · Max 5MB</p>
-                    <p id="cvNom" class="text-xs font-medium" style="color:#60a5fa;"></p>
+                    <p id="cvNom" class="text-xs font-medium" style="color:#FDD400;"></p>
                 </div>
             </label>
         </div>

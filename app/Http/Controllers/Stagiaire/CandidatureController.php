@@ -53,13 +53,21 @@ public function __construct(private CandidatureContract $candidatures) {}
             $cvPath = $request->file('cv')->store('cvs', 'private');
         }
 
-        $this->candidatures->creer([
+        $candidature = $this->candidatures->creer([
             'student_id'   => $stagiaire->id,
             'offer_id'     => $offre->id,
             'cover_letter' => $donnees['cover_letter'] ?? null,
             'cv_path'      => $cvPath,
             'status'       => 'pending',
         ]);
+
+        $candidature->load('stagiaire.user', 'offre.entreprise.user');
+        if ($candidature->offre->entreprise?->user) {
+            $candidature->offre->entreprise->user->notify(
+                new \App\Notifications\NouvelleCandidature($candidature)
+            );
+        }
+
         return redirect()
             ->route('stagiaire.candidatures.index')
             ->with('succes', 'Candidature envoyée avec succès.');

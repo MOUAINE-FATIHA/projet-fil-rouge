@@ -20,12 +20,12 @@
     <div class="fixed top-0 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full blur-3xl pointer-events-none"
          style="background:rgba(37,99,235,0.15);"></div>
     <div class="text-center relative">
-        <p class="text-8xl font-extrabold mb-4" style="color:#2563EB;">403</p>
+        <p class="text-8xl font-extrabold mb-4" style="color:#FDD400;">403</p>
         <h1 class="text-2xl font-bold text-white mb-2">Accès non autorisé</h1>
         <p class="text-white/30 mb-8">Vous n'avez pas la permission d'accéder à cette page.</p>
         <a href="{{ url('/') }}"
            class="inline-block font-semibold px-7 py-3 rounded-xl text-sm text-white transition"
-           style="background:linear-gradient(135deg,#2563EB,#1d4ed8);">
+           style="background:linear-gradient(135deg,#FDD400,#E5BE00);">
             Retour à l'accueil
         </a>
     </div>

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends(auth()->check() && auth()->user()->estStagiaire() ? 'layouts.app' : 'layouts.public')
 @section('titre', 'Détail de l\'offre')
 
 @section('sidebar-links')
@@ -27,24 +27,35 @@
 @endsection
 
 @section('contenu')
+    @php
+        $images = [
+            'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&q=85',
+            'https://images.unsplash.com/photo-1556761175-b413da4baf72?w=900&q=85',
+            'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=900&q=85',
+            'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=900&q=85',
+            'https://images.unsplash.com/photo-1552664730-d307ca884978?w=900&q=85',
+            'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=900&q=85',
+        ];
+        $imageOffre = $images[$offre->id % count($images)];
+    @endphp
 
     <div class="mb-4">
         <a href="{{ route('offres.index') }}" class="text-sm text-white/30 hover:text-white transition">Retour aux offres</a>
     </div>
 
-    <div class="max-w-2xl space-y-5">
+    <div class="max-w-3xl space-y-5">
 
         {{-- En-tête --}}
         <div class="card-dark rounded-2xl overflow-hidden">
             <div class="h-48 overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80"
-                     alt="Offre" class="w-full h-full object-cover opacity-50">
+                <img src="{{ $imageOffre }}"
+                     alt="Offre" class="w-full h-full object-cover">
             </div>
             <div class="p-6">
                 <div class="flex items-start justify-between gap-4">
                     <div class="flex-1">
                         <h1 class="text-2xl font-extrabold text-white">{{ $offre->title }}</h1>
-                        <p class="font-semibold text-sm mt-1" style="color:#60a5fa;">
+                        <p class="font-semibold text-sm mt-1" style="color:#FDD400;">
                             {{ $offre->entreprise->company_name ?? '—' }}
                         </p>
                         <div class="flex flex-wrap gap-4 mt-3 text-sm text-white/40">
@@ -73,7 +84,7 @@
                     @else
                         <a href="{{ route('login') }}"
                            class="btn-primary text-white font-semibold px-6 py-2.5 rounded-xl shrink-0 text-sm">
-                            Postuler
+                            Se connecter pour postuler
                         </a>
                     @endauth
                 </div>
@@ -102,7 +113,7 @@
         <div class="card-dark rounded-2xl p-6">
             <h2 class="font-bold text-white mb-4 pb-3 border-b border-white/5">À propos de l'entreprise</h2>
             <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-blue-400 flex items-center justify-center text-white font-bold text-lg shrink-0">
+                <div class="w-12 h-12 rounded-xl bg-teal flex items-center justify-center text-white font-bold text-lg shrink-0">
                     {{ strtoupper(substr($offre->entreprise->company_name ?? '?', 0, 1)) }}
                 </div>
                 <div>

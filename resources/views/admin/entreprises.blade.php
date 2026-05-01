@@ -34,12 +34,22 @@
 
 @section('contenu')
 
-    <div class="flex items-center justify-between mb-8">
-        <div>
-            <h1 class="text-2xl font-extrabold text-white">Gestion des entreprises</h1>
-            <p class="text-white/40 text-sm mt-1">Validez ou rejetez les comptes entreprises.</p>
+    <div class="card-dark rounded-2xl p-6 mb-6">
+        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+            <div>
+                <span class="badge-blue text-xs font-bold px-3 py-1 rounded-full">Entreprises</span>
+                <h1 class="text-2xl font-extrabold text-white mt-4">Gestion des entreprises</h1>
+                <p class="text-white/40 text-sm mt-1">Validez les comptes avant qu'ils publient des offres.</p>
+            </div>
+            <div class="rounded-xl bg-soft border border-white/5 px-4 py-3">
+                <p class="text-xs text-white/30 font-bold uppercase">Résultats</p>
+                <p class="text-2xl font-extrabold text-white">{{ $entreprises->total() }}</p>
+            </div>
         </div>
-        <div class="flex gap-2">
+    </div>
+
+    <div class="card-dark rounded-2xl p-4 mb-6">
+        <div class="flex flex-wrap gap-2">
             @foreach(['' => 'Toutes', 'pending' => 'En attente', 'approved' => 'Validées', 'rejected' => 'Rejetées'] as $val => $label)
                 <a href="{{ route('admin.entreprises', ['statut' => $val]) }}"
                    class="text-xs font-medium px-3 py-1.5 rounded-lg border transition
@@ -69,7 +79,7 @@
                 };
             @endphp
             <div class="card-dark rounded-2xl p-5">
-                <div class="flex items-start justify-between gap-4">
+                <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
                     <div class="flex-1">
                         <div class="flex items-center gap-3 flex-wrap">
                             <h2 class="font-bold text-white">{{ $entreprise->company_name }}</h2>
@@ -111,7 +121,14 @@
             </div>
         @empty
             <div class="card-dark rounded-2xl p-12 text-center">
-                <p class="text-white/30 font-medium">Aucune entreprise trouvée.</p>
+                <div class="w-12 h-12 rounded-full bg-[#EAF1F6] text-teal flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5"/>
+                    </svg>
+                </div>
+                <h2 class="text-lg font-bold text-white mb-2">Aucune entreprise trouvée</h2>
+                <p class="text-white/30 font-medium">Changez le filtre ou attendez les prochaines inscriptions.</p>
             </div>
         @endforelse
     </div>

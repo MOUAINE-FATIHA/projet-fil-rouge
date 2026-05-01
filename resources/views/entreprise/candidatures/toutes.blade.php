@@ -1,24 +1,20 @@
 @extends('layouts.app')
-@section('titre', 'Candidatures reçues')
+@section('titre', 'Candidatures')
 
 @section('sidebar-links')
     @include('entreprise.partials.sidebar')
 @endsection
 
 @section('contenu')
-
     <div class="card-dark rounded-2xl p-6 mb-6">
-        <a href="{{ route('entreprise.offres.index') }}" class="text-sm font-semibold text-white/30 hover:text-white transition">
-            Retour aux offres
-        </a>
-        <div class="mt-4 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
             <div>
-                <span class="badge-blue text-xs font-bold px-3 py-1 rounded-full">Recrutement</span>
-                <h1 class="text-2xl font-extrabold text-white mt-4">Traiter les candidatures</h1>
-                <p class="font-semibold text-sm mt-1" style="color:#FDD400;">{{ $offre->title }}</p>
+                <span class="badge-blue text-xs font-bold px-3 py-1 rounded-full">Candidatures</span>
+                <h1 class="text-2xl font-extrabold text-white mt-4">Toutes les candidatures reçues</h1>
+                <p class="text-white/40 text-sm mt-1">Traitez les demandes envoyées sur toutes vos offres.</p>
             </div>
             <div class="rounded-xl bg-soft border border-white/5 px-4 py-3">
-                <p class="text-xs text-white/30 font-bold uppercase">Candidatures</p>
+                <p class="text-xs text-white/30 font-bold uppercase">Total</p>
                 <p class="text-2xl font-extrabold text-white">{{ $candidatures->total() }}</p>
             </div>
         </div>
@@ -27,7 +23,7 @@
     <div class="card-dark rounded-2xl p-4 mb-6">
         <div class="flex flex-wrap gap-2">
             @foreach(['' => 'Toutes', 'pending' => 'En attente', 'accepted' => 'Acceptées', 'rejected' => 'Refusées'] as $statut => $label)
-                <a href="{{ route('entreprise.candidatures.index', [$offre, 'statut' => $statut]) }}"
+                <a href="{{ route('entreprise.candidatures.toutes', ['statut' => $statut]) }}"
                    class="text-xs font-medium px-3 py-1.5 rounded-lg border transition
                           {{ request('statut') === $statut
                               ? 'bg-primary text-white border-primary'
@@ -46,42 +42,55 @@
                     'reviewing' => 'badge-blue',
                     'accepted'  => 'badge-accepted',
                     'rejected'  => 'badge-rejected',
-                    default=> 'badge-gray',
+                    default     => 'badge-gray',
                 };
                 $badgeLabel = match($candidature->status) {
                     'pending'   => 'En attente',
                     'reviewing' => 'En cours',
                     'accepted'  => 'Acceptée',
                     'rejected'  => 'Refusée',
-                    default => $candidature->status,
+                    'withdrawn' => 'Retirée',
+                    default     => $candidature->status,
                 };
             @endphp
+
             <div class="card-dark rounded-2xl p-5">
                 <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
                     <div class="flex-1 min-w-0">
                         <div class="flex items-center gap-3 flex-wrap">
-                            <div class="w-9 h-9 rounded-full bg-teal flex items-center justify-center text-white font-bold text-sm shrink-0">
+                            <div class="w-10 h-10 rounded-full bg-teal flex items-center justify-center text-white font-bold text-sm shrink-0">
                                 {{ strtoupper(substr($candidature->stagiaire->user->name ?? '?', 0, 1)) }}
                             </div>
                             <div>
                                 <p class="font-bold text-white">{{ $candidature->stagiaire->user->name ?? '—' }}</p>
-                                <p class="text-xs text-white/30">{{ $candidature->stagiaire->field_of_study ?? '' }}</p>
+                                <p class="text-xs text-white/30">{{ $candidature->stagiaire->field_of_study ?? 'Profil stagiaire' }}</p>
                             </div>
                             <span class="{{ $badgeClass }} text-xs font-semibold px-3 py-1 rounded-full">
                                 {{ $badgeLabel }}
                             </span>
                         </div>
-                        <p class="text-xs text-white/20 mt-3">{{ $candidature->created_at->format('d/m/Y') }}</p>
+
+                        <div class="mt-4 rounded-xl bg-soft border border-white/5 px-4 py-3">
+                            <p class="text-xs text-white/20 uppercase tracking-widest mb-1">Offre concernée</p>
+                            <p class="text-sm font-semibold text-white">{{ $candidature->offre->title ?? '—' }}</p>
+                            <p class="text-xs text-white/30 mt-1">Reçue le {{ $candidature->created_at->format('d/m/Y') }}</p>
+                        </div>
+
                         @if($candidature->cover_letter)
-                            <p class="text-sm text-white/30 mt-2 line-clamp-2">{{ Str::limit($candidature->cover_letter, 120) }}</p>
+                            <p class="text-sm text-white/30 mt-3 line-clamp-2">{{ Str::limit($candidature->cover_letter, 140) }}</p>
                         @endif
                     </div>
-                    @if(in_array($candidature->status, ['pending','reviewing']))
-                        <div class="flex flex-col gap-2 shrink-0 md:w-40">
+
+                    <div class="flex flex-col gap-2 shrink-0 md:w-44">
+                        <a href="{{ route('entreprise.candidatures.show', $candidature) }}"
+                           class="btn-outline text-sm font-semibold px-4 py-2 rounded-xl text-center">
+                            Voir le dossier
+                        </a>
+
+                        @if(in_array($candidature->status, ['pending','reviewing']))
                             <form method="POST" action="{{ route('entreprise.candidatures.accepter', $candidature) }}">
                                 @csrf
-                                <button type="submit"
-                                    class="w-full badge-accepted text-sm font-semibold px-4 py-2 rounded-xl transition hover:opacity-80">
+                                <button type="submit" class="w-full badge-accepted text-sm font-semibold px-4 py-2 rounded-xl hover:opacity-80">
                                     Accepter
                                 </button>
                             </form>
@@ -89,12 +98,12 @@
                                   onsubmit="return confirm('Refuser cette candidature ?')">
                                 @csrf
                                 <button type="submit"
-                                    class="w-full text-sm font-medium px-4 py-2 rounded-xl transition border border-white/10 text-white/30 hover:border-red-400/30 hover:text-red-400">
+                                    class="w-full text-sm font-medium px-4 py-2 rounded-xl border border-white/10 text-white/30 hover:border-red-400/30 hover:text-red-400 transition">
                                     Refuser
                                 </button>
                             </form>
-                        </div>
-                    @endif
+                        @endif
+                    </div>
                 </div>
             </div>
         @empty
@@ -106,7 +115,7 @@
                     </svg>
                 </div>
                 <h2 class="text-lg font-bold text-white mb-2">Aucune candidature</h2>
-                <p class="text-white/30 font-medium">Les prochaines candidatures pour cette offre apparaîtront ici.</p>
+                <p class="text-white/30 font-medium">Les candidatures envoyées par les stagiaires apparaîtront ici.</p>
             </div>
         @endforelse
     </div>
@@ -114,5 +123,4 @@
     @if($candidatures->hasPages())
         <div class="mt-8 flex justify-center">{{ $candidatures->links() }}</div>
     @endif
-
 @endsection

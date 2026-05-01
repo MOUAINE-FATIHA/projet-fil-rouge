@@ -8,6 +8,7 @@ use App\Models\Offre;
 use App\Models\ProfilEntreprise;
 use App\Models\Stage;
 use App\Models\User;
+use App\Notifications\ConventionPreparee;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -28,6 +29,7 @@ class DashboardController extends Controller
             ->latest()
             ->take(5)
             ->get();
+
         return view('admin.dashboard', compact('stats', 'entreprises_recentes'));
     }
 
@@ -35,9 +37,10 @@ class DashboardController extends Controller
     {
         $utilisateurs = User::with('profilStagiaire', 'profilEntreprise')
             ->when($request->role, fn ($q) => $q->where('role', $request->role))
-            ->when($request->recherche, fn ($q) => $q
-                ->where('name', 'like', "%{$request->recherche}%")
-                ->orWhere('email', 'like', "%{$request->recherche}%")
+            ->when($request->recherche, fn ($q) => $q->where(function ($query) use ($request) {
+                $query->where('name', 'like', "%{$request->recherche}%")
+                    ->orWhere('email', 'like', "%{$request->recherche}%");
+            })
             )->latest()
             ->paginate(15);
         return view('admin.utilisateurs', compact('utilisateurs'));
@@ -89,6 +92,7 @@ class DashboardController extends Controller
         $stages = Stage::with([
             'candidature.offre.entreprise',
             'candidature.stagiaire.user',
+            'encadrant.user',
         ])
         ->latest()
         ->paginate(15);
@@ -108,5 +112,47 @@ class DashboardController extends Controller
         );
 
         return back()->with('succes', 'Encadrant assigné avec succès.');
+    }
+
+    public function convention(Stage $stage)
+    {
+        $stage->load([
+            'candidature.offre.entreprise.user',
+            'candidature.stagiaire.user',
+            'encadrant.user',
+        ]);
+
+        return view('admin.conventions.edit', compact('stage'));
+    }
+
+    public function preparerConvention(Request $request, Stage $stage)
+    {
+        $donnees = $request->validate([
+            'school_name' => ['required', 'string', 'max:255'],
+            'convention_place' => ['required', 'string', 'max:255'],
+            'convention_tasks' => ['required', 'string', 'max:2000'],
+            'convention_notes' => ['nullable', 'string', 'max:2000'],
+        ]);
+
+        $stage->loadMissing('candidature.offre.entreprise.user');
+        $offre = $stage->candidature->offre;
+        $dateDebut = $offre->start_date;
+        $dateFin = $offre->end_date ?: $offre->start_date->copy()->addMonths($offre->duration_months);
+
+        $stage->update([
+            'school_name' => $donnees['school_name'],
+            'actual_start_date' => $dateDebut,
+            'actual_end_date' => $dateFin,
+            'convention_place' => $donnees['convention_place'],
+            'convention_tasks' => $donnees['convention_tasks'],
+            'convention_notes' => $donnees['convention_notes'] ?? null,
+            'convention_prepared_at' => now(),
+        ]);
+
+        $stage->candidature->offre->entreprise->user->notify(new ConventionPreparee($stage));
+
+        return redirect()
+            ->route('admin.stages')
+            ->with('succes', 'Convention préparée. L’entreprise a reçu une notification.');
     }
 }

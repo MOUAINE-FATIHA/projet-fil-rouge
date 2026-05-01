@@ -3,92 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StageConnect – @yield('titre', 'Bienvenue')</title>
+    <title>StageConnect - @yield('titre', 'Bienvenue')</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        dark:    '#0A0F1E',
-                        navy:    '#0D1B2A',
-                        card:    '#111827',
-                        primary: '#2563EB',
-                        gold:    '#F59E0B',
-                        muted:   '#6B7280',
-                    },
-                    fontFamily: {
-                        display: ['Clash Display', 'sans-serif'],
-                        body:    ['DM Sans', 'sans-serif'],
+                        navy: '#062B45',
+                        ink: '#102A43',
+                        bluegray: '#425E7B',
+                        yellow: '#FDD400',
+                        soft: '#F6F8FA',
+                        line: '#DDE5EA',
+                        teal: '#FDD400',
                     }
                 }
             }
         }
     </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * { font-family: 'DM Sans', sans-serif; }
-
-        .glass {
-            background: rgba(255,255,255,0.04);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.08);
+        * { font-family: 'DM Sans', sans-serif; letter-spacing: 0; }
+        body { background: #EDEFF2; color: #102A43; }
+        .auth-shell {
+            background: #ffffff;
+            border: 1px solid #DDE5EA;
+            box-shadow: 0 26px 70px rgba(6, 43, 69, .12);
         }
-
-        .glow {
-            box-shadow: 0 0 40px rgba(37,99,235,0.25);
+        .auth-image {
+            background-image:
+                linear-gradient(90deg, rgba(6,43,69,.94), rgba(6,43,69,.70)),
+                url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1200&q=85');
+            background-size: cover;
+            background-position: center;
         }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #2563EB, #1d4ed8);
-            transition: all 0.3s ease;
-        }
-        .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 8px 25px rgba(37,99,235,0.4);
-        }
-
         .input-dark {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: white;
-            transition: all 0.3s ease;
+            background: #ffffff;
+            border: 1px solid #DDE5EA;
+            color: #102A43;
+            transition: all .2s ease;
         }
-        .input-dark::placeholder { color: rgba(255,255,255,0.3); }
+        .input-dark::placeholder { color: #9AA8B5; }
         .input-dark:focus {
             outline: none;
-            border-color: #2563EB;
-            background: rgba(37,99,235,0.08);
-            box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+            border-color: #062B45;
+            box-shadow: 0 0 0 3px rgba(6,43,69,.10);
         }
-
-        .dot-grid {
-            background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
-            background-size: 28px 28px;
+        .btn-primary {
+            background: #FDD400;
+            color: #102A43 !important;
+            transition: all .2s ease;
+        }
+        .btn-primary:hover { background: #E5BE00; transform: translateY(-1px); }
+        .btn-yellow {
+            background: #FDD400;
+            color: #102A43 !important;
+            border: 1px solid #E5BE00;
+            transition: all .2s ease;
+        }
+        .btn-yellow:hover { background: #F4C900; transform: translateY(-1px); }
+        .btn-light {
+            background: #ffffff;
+            color: #062B45;
+            border: 1px solid #DDE5EA;
+            transition: all .2s ease;
+        }
+        .btn-light:hover { border-color: #062B45; }
+        .role-option span {
+            border: 1px solid #DDE5EA;
+            color: #425E7B;
+            background: #ffffff;
+        }
+        .role-option input:checked + span {
+            background: #FDD400;
+            color: #102A43;
+            border-color: #E5BE00;
         }
     </style>
 </head>
+<body>
+    <main class="min-h-screen flex items-center justify-center px-4 py-8">
+        <div class="auth-shell w-full max-w-6xl rounded overflow-hidden grid lg:grid-cols-[1fr_470px] min-h-[640px]">
+            <section class="auth-image hidden lg:flex flex-col justify-between p-10 text-white">
+                <div class="flex items-center justify-between">
+                    <a href="{{ route('accueil') }}" class="font-extrabold text-xl">
+                        Stage<span class="text-yellow">Connect</span>
+                    </a>
+                    <a href="{{ route('accueil') }}" class="text-sm text-white/75 hover:text-white transition">
+                        Retour au site
+                    </a>
+                </div>
 
-<body class="bg-dark min-h-screen dot-grid">
+                <div class="max-w-lg">
+                    <span class="inline-flex bg-yellow text-ink text-xs font-extrabold px-3 py-1 rounded mb-5">
+                        Gestion des stages
+                    </span>
+                    <h1 class="text-4xl font-extrabold leading-tight">
+                        Connectez les étudiants, les entreprises et les encadrants.
+                    </h1>
+                    <p class="text-white/75 leading-relaxed mt-5">
+                        Un espace clair pour suivre les offres, les candidatures, les conventions et les stages académiques.
+                    </p>
+                </div>
+            </section>
 
-    {{-- Lueur d'ambiance --}}
-    <div class="fixed top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-primary/20 rounded-full blur-3xl pointer-events-none"></div>
+            <section class="bg-white p-6 sm:p-10 flex flex-col justify-center">
+                <div class="lg:hidden flex items-center justify-between mb-8">
+                    <a href="{{ route('accueil') }}" class="font-extrabold text-xl text-navy">
+                        Stage<span class="text-teal">Connect</span>
+                    </a>
+                    <a href="{{ route('accueil') }}" class="text-sm font-semibold text-bluegray">Accueil</a>
+                </div>
 
-    {{-- Navbar --}}
-    <nav class="glass border-b border-white/5 px-8 py-4 flex items-center justify-between sticky top-0 z-30">
-        <a href="{{ route('accueil') }}" class="text-white font-bold text-xl tracking-tight">
-            Stage<span class="text-primary">Connect</span>
-        </a>
-        <div class="flex items-center gap-4">
-            @yield('nav-action')
+                <div class="mb-8">
+                    @yield('nav-action')
+                </div>
+
+                @yield('contenu')
+            </section>
         </div>
-    </nav>
-
-    {{-- Contenu --}}
-    <main class="flex items-center justify-center py-16 px-4 min-h-[calc(100vh-73px)]">
-        @yield('contenu')
     </main>
-
 </body>
 </html>

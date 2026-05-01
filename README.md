@@ -7,6 +7,41 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## StageConnect avec Docker
+
+Ce projet peut être lancé avec Docker sans installer PHP ou PostgreSQL directement sur la machine.
+
+Commandes principales :
+
+```bash
+docker compose up -d --build
+```
+
+Puis ouvrir :
+
+```text
+http://127.0.0.1:8000
+```
+
+Pour remplir la base avec les comptes de test :
+
+```bash
+docker compose exec app php artisan db:seed
+```
+
+Pour arrêter le projet :
+
+```bash
+docker compose down
+```
+
+Services Docker utilisés :
+
+- `app` : application Laravel
+- `db` : base de données PostgreSQL
+
+La base PostgreSQL est exposée sur le port `5433` de la machine pour éviter le conflit avec un PostgreSQL local.
+
 ## About Laravel
 
 

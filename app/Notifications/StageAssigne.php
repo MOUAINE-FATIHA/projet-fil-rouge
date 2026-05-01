@@ -20,7 +20,7 @@ class StageAssigne extends Notification
             'type' => 'stage_assigne',
             'titre'=> 'Nouveau stage à encadrer',
             'message' => "Un nouveau stage vous a été assigné : \"{$this->stage->candidature->offre->title}\" — {$this->stage->candidature->stagiaire->user->name}.",
-            'url'=> '/encadrant/stages',
+            'url'=> route('encadrant.stages.show', $this->stage),
         ];
     }
 }

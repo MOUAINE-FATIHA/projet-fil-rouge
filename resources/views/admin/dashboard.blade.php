@@ -41,18 +41,27 @@
 
 @section('contenu')
 
-    <div class="mb-8">
-        <h1 class="text-2xl font-extrabold text-white">Tableau de bord</h1>
-        <p class="text-white/40 text-sm mt-1">Vue d'ensemble de la plateforme StageConnect.</p>
+    <div class="card-dark rounded-2xl p-6 mb-6">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+            <div>
+                <span class="badge-blue text-xs font-bold px-3 py-1 rounded-full">Administration</span>
+                <h1 class="text-2xl font-extrabold text-white mt-4">Tableau de bord</h1>
+                <p class="text-white/40 text-sm mt-1">Vue simple sur l'activité de la plateforme StageConnect.</p>
+            </div>
+            <a href="{{ route('admin.entreprises', ['statut' => 'pending']) }}"
+               class="btn-primary text-white text-sm font-semibold px-5 py-2.5 rounded-xl self-start md:self-auto">
+                Entreprises à valider
+            </a>
+        </div>
     </div>
 
     {{-- Stats --}}
-    <div class="grid grid-cols-3 gap-4 mb-8">
+    <div class="grid md:grid-cols-3 gap-4 mb-8">
         @foreach([
-            ['label' => 'Stagiaires','value' => $stats['stagiaires'],   'color' => '#60a5fa'],
-            ['label' => 'Entreprises','value' => $stats['entreprises'],  'color' => '#60a5fa'],
-            ['label' => 'Offres publiées', 'value' => $stats['offres'],       'color' => '#60a5fa'],
-            ['label' => 'Candidatures',  'value' => $stats['candidatures'], 'color' => '#60a5fa'],
+            ['label' => 'Stagiaires','value' => $stats['stagiaires'],   'color' => '#FDD400'],
+            ['label' => 'Entreprises','value' => $stats['entreprises'],  'color' => '#FDD400'],
+            ['label' => 'Offres publiées', 'value' => $stats['offres'],       'color' => '#FDD400'],
+            ['label' => 'Candidatures',  'value' => $stats['candidatures'], 'color' => '#FDD400'],
             ['label' => 'Stages actifs',    'value' => $stats['stages'],       'color' => '#10B981'],
             ['label' => 'En attente validation','value' => $stats['en_attente'],  'color' => '#F59E0B'],
         ] as $stat)
@@ -70,7 +79,7 @@
             <div class="flex items-center justify-between mb-5">
                 <h2 class="font-bold text-white">Entreprises en attente de validation</h2>
                 <a href="{{ route('admin.entreprises', ['statut' => 'pending']) }}"
-                   class="text-sm font-medium transition" style="color:#60a5fa;">
+                   class="text-sm font-medium transition" style="color:#FDD400;">
                     Voir tout
                 </a>
             </div>
@@ -97,6 +106,17 @@
                     </div>
                 @endforeach
             </div>
+        </div>
+    @else
+        <div class="card-dark rounded-2xl p-8 text-center">
+            <div class="w-12 h-12 rounded-full bg-[#E8F6EF] text-teal flex items-center justify-center mx-auto mb-4">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M5 13l4 4L19 7"/>
+                </svg>
+            </div>
+            <h2 class="font-bold text-white">Aucune entreprise en attente</h2>
+            <p class="text-sm text-white/30 mt-1">Les prochaines demandes de validation apparaîtront ici.</p>
         </div>
     @endif
 

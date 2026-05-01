@@ -35,13 +35,22 @@
 
 @section('contenu')
 
-    <div class="mb-8">
-        <h1 class="text-2xl font-extrabold text-white">Gestion des utilisateurs</h1>
-        <p class="text-white/40 text-sm mt-1">Activez ou désactivez les comptes.</p>
+    <div class="card-dark rounded-2xl p-6 mb-6">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+            <div>
+                <span class="badge-blue text-xs font-bold px-3 py-1 rounded-full">Comptes</span>
+                <h1 class="text-2xl font-extrabold text-white mt-4">Gestion des utilisateurs</h1>
+                <p class="text-white/40 text-sm mt-1">Recherchez un compte et gérez son accès à la plateforme.</p>
+            </div>
+            <div class="rounded-xl bg-soft border border-white/5 px-4 py-3">
+                <p class="text-xs text-white/30 font-bold uppercase">Résultats</p>
+                <p class="text-2xl font-extrabold text-white">{{ $utilisateurs->total() }}</p>
+            </div>
+        </div>
     </div>
 
     {{-- Filtres --}}
-    <form method="GET" action="{{ route('admin.utilisateurs') }}" class="flex gap-3 mb-6">
+    <form method="GET" action="{{ route('admin.utilisateurs') }}" class="card-dark rounded-2xl p-4 flex flex-wrap gap-3 mb-6">
         <input type="text" name="recherche" value="{{ request('recherche') }}"
                placeholder="Nom ou email..."
                class="input-dark px-4 py-2 rounded-xl text-sm w-64">
@@ -61,7 +70,7 @@
         @forelse($utilisateurs as $user)
             <div class="card-dark rounded-2xl p-4 flex items-center justify-between gap-4">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-blue-400 flex items-center justify-center text-white font-bold text-sm shrink-0">
+                    <div class="w-10 h-10 rounded-xl bg-teal flex items-center justify-center text-white font-bold text-sm shrink-0">
                         {{ strtoupper(substr($user->name, 0, 1)) }}
                     </div>
                     <div>
@@ -94,7 +103,19 @@
             </div>
         @empty
             <div class="card-dark rounded-2xl p-12 text-center">
-                <p class="text-white/30 font-medium">Aucun utilisateur trouvé.</p>
+                <div class="w-12 h-12 rounded-full bg-[#EAF1F6] text-teal flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1"/>
+                    </svg>
+                </div>
+                <h2 class="text-lg font-bold text-white mb-2">Aucun utilisateur trouvé</h2>
+                <p class="text-white/30 font-medium mb-4">Essayez de modifier les filtres de recherche.</p>
+                @if(request()->hasAny(['recherche','role']))
+                    <a href="{{ route('admin.utilisateurs') }}" class="btn-primary inline-block text-white text-sm font-semibold px-6 py-2.5 rounded-xl">
+                        Réinitialiser
+                    </a>
+                @endif
             </div>
         @endforelse
     </div>

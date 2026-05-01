@@ -2,13 +2,7 @@
 @section('titre', 'Dossier candidature')
 
 @section('sidebar-links')
-    <a href="{{ route('entreprise.offres.index') }}" class="sidebar-link active">
-        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-        </svg>
-        Mes offres
-    </a>
+    @include('entreprise.partials.sidebar')
 @endsection
 
 @section('contenu')
@@ -19,7 +13,7 @@
     </div>
 
     <h1 class="text-2xl font-extrabold text-white mb-1">Dossier de candidature</h1>
-    <p class="font-semibold text-sm mb-8" style="color:#60a5fa;">{{ $candidature->offre->title }}</p>
+    <p class="font-semibold text-sm mb-8" style="color:#FDD400;">{{ $candidature->offre->title }}</p>
 
     <div class="max-w-2xl space-y-5">
 
@@ -69,14 +63,93 @@
         @if($candidature->cv_path)
             <div class="card-dark rounded-2xl p-6">
                 <h2 class="font-bold text-white mb-3 pb-3 border-b border-white/5">Curriculum Vitae</h2>
-                <a href="{{ Storage::url($candidature->cv_path) }}" target="_blank"
-                   class="inline-flex items-center gap-2 font-medium text-sm transition" style="color:#60a5fa;">
+                <a href="{{ route('entreprise.candidatures.cv', $candidature) }}"
+                   class="inline-flex items-center gap-2 font-medium text-sm transition" style="color:#FDD400;">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                               d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                     </svg>
                     Télécharger le CV (PDF)
                 </a>
+            </div>
+        @endif
+
+        {{-- Convention --}}
+        @if($candidature->status === 'accepted' && $candidature->stage)
+            @php
+                $stage = $candidature->stage;
+            @endphp
+            <div class="card-dark rounded-2xl p-6">
+                <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4 pb-3 border-b border-white/5">
+                    <div>
+                        <h2 class="font-bold text-white">Convention de stage</h2>
+                        <p class="text-white/30 text-sm mt-1">Document officiel après acceptation de la candidature.</p>
+                    </div>
+                    @if($stage->conventionValidee())
+                        <span class="badge-accepted text-xs font-semibold px-3 py-1 rounded-lg">Validée</span>
+                    @elseif($stage->conventionDeposee())
+                        <span class="badge-pending text-xs font-semibold px-3 py-1 rounded-lg">En attente</span>
+                    @elseif($stage->conventionPreparee())
+                        <span class="badge-blue text-xs font-semibold px-3 py-1 rounded-lg">Prête à signer</span>
+                    @else
+                        <span class="badge-gray text-xs font-semibold px-3 py-1 rounded-lg">En préparation</span>
+                    @endif
+                </div>
+
+                @if($stage->conventionPreparee())
+                    <div class="grid sm:grid-cols-2 gap-3 text-sm mb-4">
+                        <div class="rounded-xl bg-soft border border-white/5 p-4">
+                            <p class="text-xs text-white/20 uppercase tracking-widest mb-1">Période</p>
+                            <p class="text-white/60">
+                                {{ optional($stage->actual_start_date)->format('d/m/Y') ?? '—' }}
+                                -
+                                {{ optional($stage->actual_end_date)->format('d/m/Y') ?? '—' }}
+                            </p>
+                        </div>
+                        <div class="rounded-xl bg-soft border border-white/5 p-4">
+                            <p class="text-xs text-white/20 uppercase tracking-widest mb-1">Lieu</p>
+                            <p class="text-white/60">{{ $stage->convention_place ?? '—' }}</p>
+                        </div>
+                    </div>
+
+                    <div class="rounded-xl bg-soft border border-white/5 p-4 mb-4">
+                        <p class="text-xs text-white/20 uppercase tracking-widest mb-2">Missions</p>
+                        <p class="text-white/50 text-sm leading-relaxed whitespace-pre-line">{{ $stage->convention_tasks }}</p>
+                    </div>
+                @else
+                    <p class="text-white/30 text-sm">
+                        La convention doit d'abord être préparée par l'administration.
+                    </p>
+                @endif
+
+                @if($stage->conventionPreparee())
+                    <a href="{{ route('entreprise.candidatures.convention.preparee', $candidature) }}"
+                       class="inline-flex items-center gap-2 font-semibold text-sm mb-4 mr-4" style="color:#FDD400;">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        Télécharger la convention préparée
+                    </a>
+                @endif
+
+
+                @if($stage->conventionPreparee() && !$stage->conventionValidee())
+                    <form method="POST"
+                          action="{{ route('entreprise.candidatures.convention.upload', $candidature) }}"
+                          enctype="multipart/form-data"
+                          class="grid sm:grid-cols-[1fr_auto] gap-3 items-center">
+                        @csrf
+                        <input type="file" name="convention" accept="application/pdf"
+                               class="input-dark w-full px-3 py-2 rounded-xl text-sm">
+                        <button type="submit" class="btn-primary text-white text-sm font-semibold px-5 py-2.5 rounded-xl">
+                            {{ $stage->conventionDeposee() ? 'Remplacer' : 'Déposer' }}
+                        </button>
+                    </form>
+                    @error('convention')
+                        <p class="text-red-400 text-xs mt-2">{{ $message }}</p>
+                    @enderror
+                @endif
             </div>
         @endif
 

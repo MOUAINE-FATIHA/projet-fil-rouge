@@ -3,381 +3,352 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StageConnect — Plateforme de stages académiques</title>
+    <title>StageConnect - Plateforme de gestion des stages</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        dark:    '#0A0F1E',
-                        navy:    '#0D1B2A',
-                        primary: '#2563EB',
-                        gold:    '#F59E0B',
+                        navy: '#062B45',
+                        ink: '#102A43',
+                        bluegray: '#425E7B',
+                        yellow: '#FDD400',
+                        soft: '#F6F8FA',
+                        line: '#DDE5EA',
+                        teal: '#FDD400',
+                        sand: '#C6AD93',
                     }
                 }
             }
         }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * { font-family: 'DM Sans', sans-serif; }
-
-        .glass {
-            background: rgba(255,255,255,0.04);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.08);
+        * { font-family: 'DM Sans', sans-serif; letter-spacing: 0; }
+        html { scroll-behavior: smooth; }
+        body { background: #F6F8FA; color: #102A43; }
+        .btn-yellow {
+            background: #FDD400;
+            color: #102A43;
+            border: 1px solid #E5BE00;
+            transition: all .2s ease;
         }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #2563EB, #1d4ed8);
-            transition: all 0.3s ease;
+        .btn-yellow:hover { background: #F4C900; transform: translateY(-1px); }
+        .btn-navy {
+            background: #062B45;
+            color: #ffffff;
+            border: 1px solid #062B45;
+            transition: all .2s ease;
         }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 30px rgba(37,99,235,0.4);
+        .btn-navy:hover { background: #0A3858; transform: translateY(-1px); }
+        .btn-light {
+            background: #ffffff;
+            color: #062B45;
+            border: 1px solid #DDE5EA;
+            transition: all .2s ease;
         }
-
-        .btn-outline {
-            border: 1px solid rgba(255,255,255,0.15);
-            transition: all 0.3s ease;
+        .btn-light:hover { border-color: #062B45; }
+        .card {
+            background: #ffffff;
+            border: 1px solid #DDE5EA;
+            box-shadow: 0 12px 30px rgba(16, 42, 67, .06);
         }
-        .btn-outline:hover {
-            border-color: #2563EB;
-            background: rgba(37,99,235,0.1);
+        .hero-overlay {
+            background: linear-gradient(90deg, rgba(6,43,69,.92), rgba(6,43,69,.72), rgba(253,212,0,.42));
         }
-
-        .hero-bg {
-            background: linear-gradient(135deg, #0A0F1E 0%, #0D1B2A 50%, #0A0F1E 100%);
-        }
-
-        .dot-grid {
-            background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
-            background-size: 30px 30px;
-        }
-
-        .card-hover {
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.06);
-        }
-        .card-hover:hover {
-            transform: translateY(-4px);
-            border-color: rgba(37,99,235,0.3);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        }
-
-        .stat-card {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .tag {
-            background: rgba(37,99,235,0.15);
-            color: #60a5fa;
-            border: 1px solid rgba(37,99,235,0.3);
+        .section-navy { background: #062B45; color: #ffffff; }
+        .section-footer-cta { background: #031E31; color: #ffffff; }
+        .small-label {
+            display: inline-flex;
+            background: #FFF6BF;
+            color: #062B45;
+            border: 1px solid #FDD400;
+            font-size: 12px;
+            font-weight: 800;
+            padding: 5px 10px;
+            border-radius: 4px;
+            text-transform: uppercase;
         }
     </style>
 </head>
-<body class="bg-dark text-white">
+<body>
 
-    {{-- ── Navbar ─────────────────────────────────────────────── --}}
-    <nav class="glass border-b border-white/5 px-8 py-4 flex items-center justify-between sticky top-0 z-30">
-        <a href="{{ route('accueil') }}" class="font-bold text-xl">
-            Stage<span class="text-primary">Connect</span>
-        </a>
-        <div class="flex items-center gap-8">
-            <a href="{{ route('accueil') }}"      class="text-sm text-white/60 hover:text-white transition">Accueil</a>
-            <a href="{{ route('offres.index') }}" class="text-sm text-white/60 hover:text-white transition">Offres</a>
-        </div>
-        <div class="flex items-center gap-3">
-            @auth
-                <a href="{{ route('dashboard') }}"
-                   class="btn-primary text-white text-sm font-semibold px-5 py-2.5 rounded-xl">
-                    Mon espace
-                </a>
-            @else
-                <a href="{{ route('login') }}"
-                   class="btn-outline text-white/70 text-sm font-medium px-5 py-2.5 rounded-xl">
-                    Connexion
-                </a>
-                <a href="{{ route('register') }}"
-                   class="btn-primary text-white text-sm font-semibold px-5 py-2.5 rounded-xl">
-                    S'inscrire
-                </a>
-            @endauth
+    <nav class="bg-white border-b border-line sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
+            <a href="{{ route('accueil') }}" class="font-extrabold text-xl text-navy">
+                Stage<span class="text-teal">Connect</span>
+            </a>
+
+            <div class="hidden lg:flex items-center gap-7">
+                <a href="#accueil" class="text-sm font-semibold text-bluegray hover:text-navy">Accueil</a>
+                <a href="#fonctionnement" class="text-sm font-semibold text-bluegray hover:text-navy">Fonctionnement</a>
+                <a href="#espaces" class="text-sm font-semibold text-bluegray hover:text-navy">Espaces</a>
+                <a href="{{ route('offres.index') }}" class="text-sm font-semibold text-bluegray hover:text-navy">Offres</a>
+                <a href="#contact" class="text-sm font-semibold text-bluegray hover:text-navy">Contact</a>
+            </div>
+
+            <div class="flex items-center gap-3">
+                @auth
+                    <a href="{{ route('dashboard') }}" class="btn-navy text-sm font-bold px-5 py-2.5 rounded">
+                        Mon espace
+                    </a>
+                @else
+                    <a href="{{ route('login') }}" class="hidden sm:inline-flex btn-light text-sm font-bold px-5 py-2.5 rounded">
+                        Connexion
+                    </a>
+                    <a href="{{ route('register') }}" class="btn-yellow text-sm font-bold px-5 py-2.5 rounded">
+                        S'inscrire
+                    </a>
+                @endauth
+            </div>
         </div>
     </nav>
 
-    {{-- ── Hero ────────────────────────────────────────────────── --}}
-    <section class="hero-bg dot-grid relative overflow-hidden py-24 px-8">
-        {{-- Lueurs d'ambiance --}}
-        <div class="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute bottom-0 right-1/4 w-64 h-64 bg-blue-400/10 rounded-full blur-3xl pointer-events-none"></div>
+    <section id="accueil" class="relative min-h-[620px] flex items-center overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600&q=85"
+             alt="Étudiants en travail collaboratif"
+             class="absolute inset-0 w-full h-full object-cover">
+        <div class="absolute inset-0 hero-overlay"></div>
 
-        <div class="max-w-6xl mx-auto relative">
-            <div class="max-w-3xl">
-                <span class="tag text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full inline-block mb-6">
-                    YouCode Safi
-                </span>
-                <h1 class="text-5xl font-extrabold text-white leading-tight mb-6">
-                    Trouvez votre stage<br>
-                    <span class="text-primary">idéal</span> en quelques clics.
+        <div class="relative max-w-6xl mx-auto px-5 py-24 w-full">
+            <div class="max-w-2xl text-white">
+                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight">
+                    Gérez les stages académiques dans un seul espace.
                 </h1>
-                <p class="text-white/50 text-lg leading-relaxed mb-10 max-w-xl">
-                    StageConnect connecte les talents de YouCode Safi avec les meilleures entreprises du Maroc.
-                    Postulez, suivez vos candidatures, décrochez votre stage.
+                <p class="text-white/85 text-lg leading-relaxed mt-5">
+                    StageConnect facilite la relation entre stagiaires, entreprises, encadrants et administration, depuis l'offre jusqu'à la convention.
                 </p>
-                <div class="flex gap-4">
-                    <a href="{{ route('register') }}"
-                       class="btn-primary text-white font-semibold px-8 py-3.5 rounded-xl text-sm">
-                        Commencer maintenant
-                    </a>
-                    <a href="{{ route('offres.index') }}"
-                       class="btn-outline text-white/70 font-medium px-8 py-3.5 rounded-xl text-sm">
+                <div class="flex flex-wrap gap-3 mt-8">
+                    <a href="{{ route('offres.index') }}" class="btn-yellow font-bold px-7 py-3 rounded">
                         Voir les offres
                     </a>
-                </div>
-            </div>
-
-            {{-- Image Hero --}}
-            <div class="absolute right-0 top-1/2 -translate-y-1/2 hidden lg:block">
-                <div class="relative w-80 h-64">
-                    <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=600&q=80"
-                         alt="Équipe au travail"
-                         class="w-full h-full object-cover rounded-2xl opacity-60"
-                         style="border: 1px solid rgba(255,255,255,0.1);">
-                    {{-- Badge flottant --}}
-                    <div class="absolute -bottom-4 -left-4 glass rounded-xl px-4 py-3">
-                        <p class="text-xs text-white/40">Candidatures cette semaine</p>
-                        <p class="text-2xl font-extrabold text-white">500+</p>
-                    </div>
+                    <a href="#fonctionnement" class="bg-white/10 text-white border border-white/30 font-bold px-7 py-3 rounded hover:bg-white/15 transition">
+                        Découvrir
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    {{-- ── Stats ────────────────────────────────────────────────── --}}
-    <section class="py-12 px-8 border-y border-white/5" style="background:#0D1B2A;">
-        <div class="max-w-6xl mx-auto grid grid-cols-4 gap-6">
-            @foreach([
-                ['500+', 'Stages trouvés'],
-                ['120+', 'Entreprises partenaires'],
-                ['95%',  'Taux de satisfaction'],
-                ['2ans', 'D\'expérience'],
-            ] as [$val, $label])
-                <div class="text-center">
-                    <p class="text-3xl font-extrabold text-white">{{ $val }}</p>
-                    <p class="text-sm text-white/40 mt-1">{{ $label }}</p>
+    <section id="fonctionnement" class="py-20 px-5">
+        <div class="max-w-6xl mx-auto grid lg:grid-cols-[1fr_420px] gap-12 items-center">
+            <div>
+                <h2 class="text-3xl font-extrabold text-navy mt-5">Une solution simple pour organiser le cycle de stage</h2>
+                <p class="text-bluegray leading-relaxed mt-4">
+                    Le projet remplace les échanges dispersés par un flux clair. L'étudiant postule, l'entreprise décide, l'admin organise et l'encadrant suit le stage.
+                </p>
+
+                <div class="grid sm:grid-cols-3 gap-4 mt-8">
+                    @foreach([
+                        ['title' => 'Candidature', 'text' => 'CV, lettre de motivation et statut de la demande.'],
+                        ['title' => 'Convention', 'text' => 'PDF préparé, signé par l’entreprise puis validé.'],
+                        ['title' => 'Suivi', 'text' => 'Stages assignés, documents et compte-rendu.'],
+                    ] as $item)
+                        <div class="card rounded p-5">
+                            <h3 class="font-extrabold text-navy">{{ $item['title'] }}</h3>
+                            <p class="text-sm text-bluegray leading-relaxed mt-3">{{ $item['text'] }}</p>
+                        </div>
+                    @endforeach
                 </div>
-            @endforeach
+            </div>
+
+            <div class="relative">
+                <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=900&q=85"
+                     alt="Réunion autour d'un projet"
+                     class="w-full h-[360px] object-cover rounded">
+                <div class="absolute -bottom-8 left-8 right-8 bg-navy text-white rounded p-5 shadow-xl">
+                    <p class="text-sm text-white/70">Objectif principal</p>
+                    <p class="font-bold mt-1">Centraliser les informations importantes du stage.</p>
+                </div>
+            </div>
         </div>
     </section>
 
-    {{-- ── Offres récentes ──────────────────────────────────────── --}}
-    <section class="py-20 px-8">
+    <section class="section-navy py-20 px-5">
         <div class="max-w-6xl mx-auto">
-            <div class="flex items-end justify-between mb-10">
-                <div>
-                    <span class="tag text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full inline-block mb-3">
-                        Opportunités
-                    </span>
-                    <h2 class="text-3xl font-extrabold text-white">Offres disponibles</h2>
-                </div>
-                <a href="{{ route('offres.index') }}" class="text-primary text-sm font-medium hover:text-blue-400 transition">
-                    Voir tout
-                </a>
+            <div class="text-center max-w-2xl mx-auto mb-10">
+                
+                <h2 class="text-3xl font-extrabold mt-5">Comment StageConnect fonctionne ?</h2>
+                <p class="text-white/70 mt-4">Un parcours logique, facile à suivre et adapté à une gestion académique.</p>
             </div>
 
-            <div class="grid grid-cols-3 gap-5">
+            <div class="grid md:grid-cols-4 gap-5">
                 @foreach([
-                    [
-                        'titre'  => 'Développeur Full Stack',
-                        'type'   => 'PFE',
-                        'ville'  => 'Casablanca',
-                        'duree'  => '4 mois',
-                        'img'    => 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&q=80',
-                    ],
-                    [
-                        'titre'  => 'Designer UI/UX',
-                        'type'   => 'PFA',
-                        'ville'  => 'Rabat',
-                        'duree'  => '3 mois',
-                        'img'    => 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&q=80',
-                    ],
-                    [
-                        'titre'  => 'Data Analyst Junior',
-                        'type'   => 'Stage été',
-                        'ville'  => 'Safi',
-                        'duree'  => '2 mois',
-                        'img'    => 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&q=80',
-                    ],
-                ] as $offre)
-                    <div class="card-hover rounded-2xl overflow-hidden" style="background:#111827;">
-                        <div class="h-40 overflow-hidden">
-                            <img src="{{ $offre['img'] }}" alt="{{ $offre['titre'] }}"
-                                 class="w-full h-full object-cover opacity-70 hover:opacity-90 transition duration-500 hover:scale-105">
-                        </div>
-                        <div class="p-5">
-                            <div class="flex items-center gap-2 mb-3">
-                                <span class="tag text-xs font-medium px-2.5 py-1 rounded-lg">{{ $offre['type'] }}</span>
-                            </div>
-                            <h3 class="font-bold text-white text-base mb-2">{{ $offre['titre'] }}</h3>
-                            <div class="flex items-center gap-3 text-xs text-white/40">
-                                <span>{{ $offre['ville'] }}</span>
-                                <span>{{ $offre['duree'] }}</span>
-                            </div>
-                            <a href="{{ route('offres.index') }}"
-                               class="mt-4 block text-center btn-primary text-white text-sm font-semibold py-2.5 rounded-xl">
-                                Voir l'offre
-                            </a>
-                        </div>
+                    ['step' => '01', 'title' => 'Publier', 'text' => "L'entreprise publie une offre de stage après validation de son compte."],
+                    ['step' => '02', 'title' => 'Postuler', 'text' => "Le stagiaire envoie sa candidature avec les documents nécessaires."],
+                    ['step' => '03', 'title' => 'Accepter', 'text' => "L'entreprise accepte ou refuse la candidature."],
+                    ['step' => '04', 'title' => 'Valider', 'text' => "L'encadrant vérifie la convention signée et valide le dossier."],
+                ] as $item)
+                    <div class="bg-white text-ink rounded p-6">
+                        <span class="inline-flex bg-yellow text-navy text-xs font-extrabold px-3 py-1 rounded">{{ $item['step'] }}</span>
+                        <h3 class="font-extrabold text-lg mt-5">{{ $item['title'] }}</h3>
+                        <p class="text-sm text-bluegray leading-relaxed mt-3">{{ $item['text'] }}</p>
                     </div>
                 @endforeach
             </div>
         </div>
     </section>
 
-    {{-- ── Pour les étudiants ───────────────────────────────────── --}}
-    <section class="py-20 px-8" style="background:#0D1B2A;">
-        <div class="max-w-6xl mx-auto flex items-center gap-14">
-            <div class="flex-1">
-                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80"
-                     alt="Étudiants"
-                     class="w-full h-72 object-cover rounded-2xl opacity-80"
-                     style="border: 1px solid rgba(255,255,255,0.08);">
-            </div>
-            <div class="flex-1">
-                <span class="tag text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full inline-block mb-4">
-                    Pour les Étudiants
-                </span>
-                <h2 class="text-3xl font-extrabold text-white mb-4">
-                    Votre tremplin vers le monde professionnel
-                </h2>
-                <p class="text-white/40 text-sm leading-relaxed mb-6">
-                    Accédez aux meilleures offres de stage, suivez vos candidatures en temps réel et décrochez votre premier emploi.
-                </p>
-                <ul class="space-y-3 mb-8">
+    <section id="espaces" class="bg-white py-20 px-5">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid lg:grid-cols-[360px_1fr] gap-12 items-start">
+                <div>
+                    <h2 class="text-3xl font-extrabold text-navy mt-5">Des espaces adaptés à chaque rôle</h2>
+                    <p class="text-bluegray leading-relaxed mt-4">
+                        Chaque utilisateur voit les actions utiles pour lui, sans complexité.
+                    </p>
+                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=700&q=85"
+                         alt="Équipe de travail"
+                         class="w-full h-64 object-cover rounded mt-8">
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-5">
                     @foreach([
-                        'Accès à des offres exclusives de startups et grands groupes',
-                        'Suivi de vos candidatures en temps réel',
-                        'Interface simple et intuitive',
-                    ] as $item)
-                        <li class="flex items-center gap-3 text-sm text-white/60">
-                            <span class="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
-                                <svg class="w-3 h-3 text-primary" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                </svg>
-                            </span>
-                            {{ $item }}
-                        </li>
+                        ['title' => 'Stagiaire', 'items' => ['Consulter les offres', 'Postuler', 'Suivre ses candidatures']],
+                        ['title' => 'Entreprise', 'items' => ['Publier des offres', 'Traiter les candidatures', 'Déposer la convention signée']],
+                        ['title' => 'Encadrant', 'items' => ['Voir ses stages', 'Télécharger la convention', 'Valider le document']],
+                        ['title' => 'Admin', 'items' => ['Valider les comptes', 'Assigner les encadrants', 'Préparer la convention']],
+                    ] as $role)
+                        <div class="card rounded p-6">
+                            <h3 class="font-extrabold text-xl text-navy">{{ $role['title'] }}</h3>
+                            <ul class="mt-5 space-y-3">
+                                @foreach($role['items'] as $item)
+                                    <li class="flex items-start gap-3 text-sm text-bluegray">
+                                        <span class="w-5 h-5 bg-yellow text-navy rounded flex items-center justify-center text-xs font-bold mt-0.5">✓</span>
+                                        <span>{{ $item }}</span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
                     @endforeach
-                </ul>
-                <a href="{{ route('register') }}"
-                   class="btn-primary inline-block text-white font-semibold px-7 py-3 rounded-xl text-sm">
-                    Postuler maintenant
-                </a>
+                </div>
             </div>
         </div>
     </section>
 
-    {{-- ── Pour les entreprises ─────────────────────────────────── --}}
-    <section class="py-20 px-8">
-        <div class="max-w-6xl mx-auto flex items-center gap-14">
-            <div class="flex-1">
-                <span class="tag text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full inline-block mb-4">
-                    Pour les Entreprises
-                </span>
-                <h2 class="text-3xl font-extrabold text-white mb-4">
-                    Recrutez les meilleurs talents tech
-                </h2>
-                <p class="text-white/40 text-sm leading-relaxed mb-6">
-                    Accédez aux profils techniques de YouCode Safi, publiez vos offres et gérez vos candidatures depuis un seul espace.
-                </p>
-                <ul class="space-y-3 mb-8">
-                    @foreach([
-                        'Profils qualifiés et prêts à l\'emploi',
-                        'Gestion simplifiée des candidatures',
-                        'Mise en relation rapide avec les étudiants',
-                    ] as $item)
-                        <li class="flex items-center gap-3 text-sm text-white/60">
-                            <span class="w-5 h-5 rounded-full bg-gold/20 flex items-center justify-center shrink-0">
-                                <svg class="w-3 h-3 text-gold" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                </svg>
-                            </span>
-                            {{ $item }}
-                        </li>
-                    @endforeach
-                </ul>
-                <a href="{{ route('register') }}"
-                   class="btn-outline inline-block text-white/70 font-semibold px-7 py-3 rounded-xl text-sm">
-                    Déposer une offre →
-                </a>
+    <section class="py-20 px-5 bg-soft">
+        <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+            <div class="order-2 lg:order-1">
+                <div class="grid grid-cols-2 gap-4">
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=700&q=85"
+                         alt="Discussion professionnelle"
+                         class="w-full h-72 object-cover rounded">
+                    <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?w=700&q=85"
+                         alt="Réunion en entreprise"
+                         class="w-full h-72 object-cover rounded mt-8">
+                </div>
             </div>
-            <div class="flex-1">
-                <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&q=80"
-                     alt="Entreprise"
-                     class="w-full h-72 object-cover rounded-2xl opacity-80"
-                     style="border: 1px solid rgba(255,255,255,0.08);">
+            <div class="order-1 lg:order-2">
+                <h2 class="text-3xl font-extrabold text-navy mt-5">Un document préparé, signé puis validé</h2>
+                <p class="text-bluegray leading-relaxed mt-4">
+                    L’administration prépare la convention avec les informations du stage. L’entreprise télécharge le PDF, le signe, puis redépose la version signée. L’encadrant vérifie et valide.
+                </p>
+                <div class="space-y-3 mt-7">
+                    @foreach([
+                        'PDF généré automatiquement',
+                        'Dépôt sécurisé dans un stockage privé',
+                        'Validation finale par l’encadrant',
+                    ] as $item)
+                        <div class="flex items-center gap-3">
+                            <span class="w-7 h-7 rounded bg-yellow text-navy flex items-center justify-center font-bold">✓</span>
+                            <p class="font-semibold text-ink">{{ $item }}</p>
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </div>
     </section>
 
-    {{-- ── CTA Final ────────────────────────────────────────────── --}}
-    <section class="py-20 px-8" style="background: linear-gradient(135deg, #0D1B2A, #0A0F1E);">
-        <div class="max-w-3xl mx-auto text-center">
-            <h2 class="text-3xl font-extrabold text-white mb-4">Prêt à commencer ?</h2>
-            <p class="text-white/40 mb-8">
-                Rejoignez des centaines d'étudiants et d'entreprises qui font confiance à StageConnect.
-            </p>
-            <div class="flex justify-center gap-4">
-                <a href="{{ route('register') }}"
-                   class="btn-primary text-white font-semibold px-8 py-3.5 rounded-xl text-sm">
-                    Créer mon compte
-                </a>
-                <a href="{{ route('offres.index') }}"
-                   class="btn-outline text-white/70 font-medium px-8 py-3.5 rounded-xl text-sm">
+    <section class="py-20 px-5 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-10">
+                <h2 class="text-3xl font-extrabold text-navy mt-5">Ce que la plateforme améliore</h2>
+                <p class="text-bluegray mt-4">Moins de confusion, plus de visibilité et une meilleure organisation du stage.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-5">
+                @foreach([
+                    ['title' => 'Informations centralisées', 'text' => 'Les offres, candidatures, conventions et stages sont regroupés.'],
+                    ['title' => 'Interfaces moins vides', 'text' => 'Chaque espace affiche des messages et actions utiles.'],
+                    ['title' => 'Suivi plus professionnel', 'text' => 'L’encadrant et l’admin gardent une trace claire des étapes.'],
+                ] as $item)
+                    <div class="card rounded p-6">
+                        <h3 class="font-extrabold text-navy">{{ $item['title'] }}</h3>
+                        <p class="text-sm text-bluegray leading-relaxed mt-3">{{ $item['text'] }}</p>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    <section class="section-footer-cta py-14 px-5">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div>
+                <h2 class="text-2xl font-extrabold">Prêt à commencer ?</h2>
+                <p class="text-white/70 mt-2">Consultez les offres ouvertes ou créez un compte adapté à votre rôle.</p>
+            </div>
+            <div class="flex flex-wrap gap-3">
+                <a href="{{ route('offres.index') }}" class="btn-yellow font-bold px-6 py-3 rounded">Voir les offres</a>
+                <a href="{{ route('register') }}" class="bg-white text-navy font-bold px-6 py-3 rounded">Créer un compte</a>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="bg-[#031E31] text-white px-5 pt-12 pb-7">
+        <div class="max-w-6xl mx-auto">
+            <div class="bg-yellow text-navy rounded p-5 mb-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <h2 class="font-extrabold text-xl">StageConnect</h2>
+                    <p class="text-sm mt-1">Une plateforme simple pour gérer les stages académiques.</p>
+                </div>
+                <a href="{{ route('offres.index') }}" class="bg-navy text-white font-bold px-5 py-2.5 rounded text-sm">
                     Explorer les offres
                 </a>
             </div>
-        </div>
-    </section>
 
-    {{-- ── Footer ───────────────────────────────────────────────── --}}
-    <footer class="border-t border-white/5 px-8 py-12" style="background:#0D1B2A;">
-        <div class="max-w-6xl mx-auto grid grid-cols-4 gap-8 mb-10">
-            <div>
-                <p class="font-bold text-white text-lg mb-3">Stage<span class="text-primary">Connect</span></p>
-                <p class="text-white/30 text-sm leading-relaxed">
-                    La plateforme de mise en relation entre YouCode Safi et le monde professionnel.
-                </p>
+            <div class="grid md:grid-cols-[1.4fr_1fr_1fr_1fr] gap-8 pb-9 border-b border-white/10">
+                <div>
+                    <p class="font-extrabold text-2xl">Stage<span class="text-yellow">Connect</span></p>
+                    <p class="text-sm text-white/70 leading-relaxed mt-3 max-w-sm">
+                        Projet Laravel de gestion des stages, conçu pour centraliser les offres, candidatures, conventions et suivis.
+                    </p>
+                </div>
+
+                <div>
+                    <h3 class="font-bold mb-4">Navigation</h3>
+                    <ul class="space-y-2.5 text-sm text-white/70">
+                        <li><a href="#fonctionnement" class="hover:text-yellow">Fonctionnement</a></li>
+                        <li><a href="#espaces" class="hover:text-yellow">Espaces</a></li>
+                        <li><a href="{{ route('offres.index') }}" class="hover:text-yellow">Offres</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="font-bold mb-4">Rôles</h3>
+                    <ul class="space-y-2.5 text-sm text-white/70">
+                        <li>Stagiaire</li>
+                        <li>Entreprise</li>
+                        <li>Encadrant</li>
+                        <li>Admin</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="font-bold mb-4">Projet</h3>
+                    <ul class="space-y-2.5 text-sm text-white/70">
+                        <li>YouCode Safi</li>
+                        <li>Laravel</li>
+                        <li>PostgreSQL</li>
+                        <li>Docker</li>
+                    </ul>
+                </div>
             </div>
-            <div>
-                <p class="font-semibold text-white/60 text-xs uppercase tracking-widest mb-4">Plateforme</p>
-                <ul class="space-y-2.5">
-                    <li><a href="{{ route('offres.index') }}" class="text-white/30 text-sm hover:text-white transition">Offres de stage</a></li>
-                    <li><a href="{{ route('register') }}"     class="text-white/30 text-sm hover:text-white transition">S'inscrire</a></li>
-                    <li><a href="{{ route('login') }}"        class="text-white/30 text-sm hover:text-white transition">Se connecter</a></li>
-                </ul>
+
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 pt-6 text-sm text-white/60">
+                <p>© 2026 StageConnect. Tous droits réservés.</p>
+                <p>Plateforme de gestion des stages académiques.</p>
             </div>
-            <div>
-                <p class="font-semibold text-white/60 text-xs uppercase tracking-widest mb-4">Ressources</p>
-                <ul class="space-y-2.5">
-                    <li><a href="#" class="text-white/30 text-sm hover:text-white transition">Guide du stagiaire</a></li>
-                    <li><a href="#" class="text-white/30 text-sm hover:text-white transition">Aide & Support</a></li>
-                </ul>
-            </div>
-            <div>
-                <p class="font-semibold text-white/60 text-xs uppercase tracking-widest mb-4">Légal</p>
-                <ul class="space-y-2.5">
-                    <li><a href="#" class="text-white/30 text-sm hover:text-white transition">Confidentialité</a></li>
-                    <li><a href="#" class="text-white/30 text-sm hover:text-white transition">CGU</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="max-w-6xl mx-auto pt-6 border-t border-white/5 flex items-center justify-between">
-            <p class="text-white/20 text-sm">© 2026 StageConnect — YouCode Safi</p>
-            <p class="text-white/20 text-sm">Powered by Simplon</p>
         </div>
     </footer>
 

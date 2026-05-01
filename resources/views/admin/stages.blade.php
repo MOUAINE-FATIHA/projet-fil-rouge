@@ -5,62 +5,46 @@
     <a href="{{ route('admin.dashboard') }}" class="sidebar-link">
         <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3"/>
         </svg>
         Tableau de bord
     </a>
     <a href="{{ route('admin.entreprises') }}" class="sidebar-link">
         <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5"/>
         </svg>
         Entreprises
     </a>
     <a href="{{ route('admin.utilisateurs') }}" class="sidebar-link">
         <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                  d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1"/>
         </svg>
         Utilisateurs
     </a>
     <a href="{{ route('admin.stages') }}" class="sidebar-link active">
         <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414A1 1 0 0118 8v11a2 2 0 01-2 2z"/>
         </svg>
         Stages
     </a>
 @endsection
 
-{{-- Assigner un encadrant --}}
-@if(!$stage->supervisor_id)
-    <form method="POST"
-          action="{{ route('admin.stages.assigner-encadrant', $stage) }}"
-          class="mt-3 pt-3 border-t border-white/5 flex items-center gap-3">
-        @csrf
-        <select name="supervisor_id"
-                class="input-dark flex-1 px-3 py-2 rounded-xl text-xs">
-            <option value="">Assigner un encadrant...</option>
-            @foreach(\App\Models\ProfilEncadrant::with('user')->get() as $enc)
-                <option value="{{ $enc->id }}">{{ $enc->user->name }}</option>
-            @endforeach
-        </select>
-        <button type="submit"
-                class="btn-primary text-white text-xs font-semibold px-4 py-2 rounded-xl">
-            Assigner
-        </button>
-    </form>
-@else
-    <p class="mt-3 pt-3 border-t border-white/5 text-xs text-white/30">
-        Encadrant : <span class="text-white/50">{{ $stage->encadrant->user->name ?? '—' }}</span>
-    </p>
-@endif
-
 @section('contenu')
-
-    <div class="mb-8">
-        <h1 class="text-2xl font-extrabold text-white">Tous les stages</h1>
-        <p class="text-white/40 text-sm mt-1">Vue globale de tous les stages de la plateforme.</p>
+    <div class="card-dark rounded-2xl p-6 mb-6">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+            <div>
+                <span class="badge-blue text-xs font-bold px-3 py-1 rounded-full">Suivi</span>
+                <h1 class="text-2xl font-extrabold text-white mt-4">Tous les stages</h1>
+                <p class="text-white/40 text-sm mt-1">Vue globale des stages et des encadrants affectés.</p>
+            </div>
+            <div class="rounded-xl bg-soft border border-white/5 px-4 py-3">
+                <p class="text-xs text-white/30 font-bold uppercase">Stages</p>
+                <p class="text-2xl font-extrabold text-white">{{ $stages->total() }}</p>
+            </div>
+        </div>
     </div>
 
     <div class="space-y-4">
@@ -81,22 +65,40 @@
                     default       => $stage->status,
                 };
             @endphp
+
             <div class="card-dark rounded-2xl p-5">
-                <div class="flex items-start justify-between gap-4">
+                <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5">
                     <div class="flex-1">
                         <div class="flex items-center gap-3 flex-wrap">
-                            <h2 class="font-bold text-white">{{ $stage->candidature->offre->title ?? '—' }}</h2>
+                            <h2 class="font-bold text-white text-lg">{{ $stage->candidature->offre->title ?? '—' }}</h2>
                             <span class="{{ $bClass }} text-xs font-semibold px-3 py-1 rounded-full">{{ $bLabel }}</span>
+                            @if($stage->conventionValidee())
+                                <span class="badge-accepted text-xs font-semibold px-3 py-1 rounded-full">Convention validée</span>
+                            @elseif($stage->conventionDeposee())
+                                <span class="badge-pending text-xs font-semibold px-3 py-1 rounded-full">Convention à valider</span>
+                            @elseif($stage->conventionPreparee())
+                                <span class="badge-blue text-xs font-semibold px-3 py-1 rounded-full">Convention préparée</span>
+                            @else
+                                <span class="badge-gray text-xs font-semibold px-3 py-1 rounded-full">À préparer</span>
+                            @endif
                         </div>
-                        <div class="flex gap-6 mt-2 text-xs text-white/40">
-                            <span>
-                                <span class="text-white/60">{{ $stage->candidature->stagiaire->user->name ?? '—' }}</span>
-                            </span>
-                            <span>
-                                <span class="text-white/60">{{ $stage->candidature->offre->entreprise->company_name ?? '—' }}</span>
-                            </span>
+
+                        <div class="grid md:grid-cols-3 gap-3 mt-4">
+                            <div class="rounded-xl bg-soft border border-white/5 px-4 py-3">
+                                <p class="text-xs text-white/20 uppercase tracking-widest mb-1">Stagiaire</p>
+                                <p class="text-sm text-white/60">{{ $stage->candidature->stagiaire->user->name ?? '—' }}</p>
+                            </div>
+                            <div class="rounded-xl bg-soft border border-white/5 px-4 py-3">
+                                <p class="text-xs text-white/20 uppercase tracking-widest mb-1">Entreprise</p>
+                                <p class="text-sm text-white/60">{{ $stage->candidature->offre->entreprise->company_name ?? '—' }}</p>
+                            </div>
+                            <div class="rounded-xl bg-soft border border-white/5 px-4 py-3">
+                                <p class="text-xs text-white/20 uppercase tracking-widest mb-1">Encadrant</p>
+                                <p class="text-sm text-white/60">{{ $stage->encadrant->user->name ?? 'Non assigné' }}</p>
+                            </div>
                         </div>
-                        <div class="flex gap-4 mt-1 text-xs text-white/20">
+
+                        <div class="flex gap-4 mt-3 text-xs text-white/30">
                             @if($stage->actual_start_date)
                                 <span>Début : {{ $stage->actual_start_date->format('d/m/Y') }}</span>
                             @endif
@@ -105,11 +107,45 @@
                             @endif
                         </div>
                     </div>
+
+                    <div class="lg:w-80 space-y-3">
+                        <a href="{{ route('admin.stages.convention', $stage) }}"
+                           class="btn-outline block text-center text-xs font-semibold px-4 py-2.5 rounded-xl">
+                            {{ $stage->conventionPreparee() ? 'Modifier la convention' : 'Préparer la convention' }}
+                        </a>
+
+                    @if(!$stage->supervisor_id)
+                        <form method="POST"
+                              action="{{ route('stages.assigner-encadrant', $stage) }}"
+                              class="rounded-xl bg-soft border border-white/5 p-4">
+                            @csrf
+                            <label class="block text-xs font-bold text-white/30 uppercase mb-2">Assigner un encadrant</label>
+                            <div class="flex gap-2">
+                                <select name="supervisor_id" class="input-dark flex-1 px-3 py-2 rounded-xl text-xs" required>
+                                    <option value="">Choisir...</option>
+                                    @foreach(\App\Models\ProfilEncadrant::with('user')->get() as $enc)
+                                        <option value="{{ $enc->id }}">{{ $enc->user->name }}</option>
+                                    @endforeach
+                                </select>
+                                <button type="submit" class="btn-primary text-white text-xs font-semibold px-4 py-2 rounded-xl">
+                                    OK
+                                </button>
+                            </div>
+                        </form>
+                    @endif
+                    </div>
                 </div>
             </div>
         @empty
             <div class="card-dark rounded-2xl p-12 text-center">
-                <p class="text-white/30 font-medium">Aucun stage enregistré.</p>
+                <div class="w-12 h-12 rounded-full bg-[#EAF1F6] text-teal flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414A1 1 0 0118 8v11a2 2 0 01-2 2z"/>
+                    </svg>
+                </div>
+                <h2 class="text-lg font-bold text-white mb-2">Aucun stage enregistré</h2>
+                <p class="text-white/30 font-medium">Les stages créés après acceptation des candidatures apparaîtront ici.</p>
             </div>
         @endforelse
     </div>
@@ -117,5 +153,4 @@
     @if($stages->hasPages())
         <div class="mt-8 flex justify-center">{{ $stages->links() }}</div>
     @endif
-
 @endsection

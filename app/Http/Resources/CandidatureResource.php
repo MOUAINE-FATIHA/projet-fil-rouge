@@ -9,9 +9,9 @@ class CandidatureResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'               => $this->id,
-            'statut'           => $this->status,
-            'statut_label'     => match($this->status) {
+            'id' => $this->id,
+            'statut'  => $this->status,
+            'statut_label'=> match($this->status) {
                 'pending'   => 'En attente',
                 'reviewing' => 'En cours',
                 'accepted'  => 'Acceptée',
@@ -19,12 +19,12 @@ class CandidatureResource extends JsonResource
                 'withdrawn' => 'Retirée',
                 default     => $this->status,
             },
-            'feedback'         => $this->company_feedback,
+            'feedback'  => $this->company_feedback,
             'date_candidature' => $this->created_at->format('d/m/Y'),
-            'offre'            => [
-                'id'         => $this->offre->id,
-                'titre'      => $this->offre->title,
-                'ville'      => $this->offre->city,
+            'offre' => [
+                'id'=> $this->offre->id,
+                'titre' => $this->offre->title,
+                'ville' => $this->offre->city,
                 'entreprise' => $this->offre->entreprise->company_name ?? '—',
             ],
         ];

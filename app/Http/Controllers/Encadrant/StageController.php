@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Encadrant;
 
 use App\Http\Controllers\Controller;
 use App\Models\Stage;
+use App\Notifications\ConventionValidee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class StageController extends Controller
 {
@@ -47,10 +49,42 @@ class StageController extends Controller
             'compte_rendu' => ['required', 'string', 'max:3000'],
         ]);
 
-        // On stocke dans student_feedback pour simplifier
+        
         $stage->update(['student_feedback' => $donnees['compte_rendu']]);
 
         return back()->with('succes', 'Compte-rendu enregistré.');
+    }
+
+    public function telechargerConvention(Stage $stage)
+    {
+        $this->verifierAcces($stage);
+
+        abort_unless($stage->convention_path, 404, 'Aucune convention déposée.');
+        abort_if(str_starts_with($stage->convention_path, 'cvs/'), 422, 'Le fichier enregistré comme convention ressemble à un CV.');
+        abort_unless(Storage::disk('private')->exists($stage->convention_path), 404, 'Le fichier de convention est introuvable.');
+
+        return Storage::disk('private')->download($stage->convention_path, 'convention-stage-' . $stage->id . '.pdf');
+    }
+
+    public function validerConvention(Stage $stage)
+    {
+        $this->verifierAcces($stage);
+        abort_unless($stage->convention_path, 422, 'La convention doit être déposée avant validation.');
+
+        $stage->update([
+            'convention_status' => 'validated',
+            'convention_validated_at' => now(),
+        ]);
+
+        $stage->loadMissing([
+            'candidature.offre.entreprise.user',
+            'candidature.stagiaire.user',
+        ]);
+
+        $stage->candidature->stagiaire->user->notify(new ConventionValidee($stage));
+        $stage->candidature->offre->entreprise->user->notify(new ConventionValidee($stage));
+
+        return back()->with('succes', 'Convention validée avec succès.');
     }
 
     private function verifierAcces(Stage $stage): void

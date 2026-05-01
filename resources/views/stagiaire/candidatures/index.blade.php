@@ -30,9 +30,18 @@
 
 @section('contenu')
 
-    <div class="mb-8">
-        <h1 class="text-2xl font-extrabold text-white">Mes candidatures</h1>
-        <p class="text-white/40 text-sm mt-1">Suivez l'état de toutes vos candidatures.</p>
+    <div class="card-dark rounded-2xl p-6 mb-6">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+            <div>
+                <span class="badge-blue text-xs font-bold px-3 py-1 rounded-full">Candidatures</span>
+                <h1 class="text-2xl font-extrabold text-white mt-4">Mes candidatures</h1>
+                <p class="text-white/40 text-sm mt-1">Suivez les réponses des entreprises depuis un seul endroit.</p>
+            </div>
+            <div class="rounded-xl bg-soft border border-white/5 px-4 py-3">
+                <p class="text-xs text-white/30 font-bold uppercase">Total</p>
+                <p class="text-2xl font-extrabold text-white">{{ $candidatures->total() }}</p>
+            </div>
+        </div>
     </div>
 
     <div class="space-y-4">
@@ -55,7 +64,7 @@
                 };
             @endphp
             <div class="card-dark rounded-2xl p-5">
-                <div class="flex items-start justify-between gap-4">
+                <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
                     <div class="flex-1 min-w-0">
                         <div class="flex items-center gap-3 flex-wrap">
                             <h2 class="font-bold text-white">{{ $c->offre->title ?? '—' }}</h2>
@@ -63,12 +72,14 @@
                                 {{ $badgeLabel }}
                             </span>
                         </div>
-                        <p class="text-sm font-medium mt-0.5" style="color:#60a5fa;">
+                        <p class="text-sm font-medium mt-0.5" style="color:#FDD400;">
                             {{ $c->offre->entreprise->company_name ?? '—' }}
                         </p>
-                        <div class="flex gap-4 mt-2 text-xs text-white/30">
-                            @if($c->offre->city) <span>{{ $c->offre->city }}</span> @endif
-                            <span>{{ $c->created_at->format('d/m/Y') }}</span>
+                        <div class="flex flex-wrap gap-2 mt-3 text-xs text-white/30">
+                            @if($c->offre->city)
+                                <span class="badge-gray px-2.5 py-1 rounded-lg">{{ $c->offre->city }}</span>
+                            @endif
+                            <span class="badge-gray px-2.5 py-1 rounded-lg">Postulé le {{ $c->created_at->format('d/m/Y') }}</span>
                         </div>
                         @if($c->company_feedback)
                             <div class="mt-3 rounded-xl px-4 py-3 text-sm text-white/50 badge-gray">
@@ -90,7 +101,14 @@
             </div>
         @empty
             <div class="card-dark rounded-2xl p-12 text-center">
-                <p class="text-white/30 font-medium mb-4">Vous n'avez pas encore de candidature.</p>
+                <div class="w-12 h-12 rounded-full bg-[#EAF1F6] text-teal flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+                    </svg>
+                </div>
+                <h2 class="text-lg font-bold text-white mb-2">Aucune candidature</h2>
+                <p class="text-white/30 font-medium mb-4">Explorez les offres disponibles et postulez à celles qui correspondent à votre profil.</p>
                 <a href="{{ route('offres.index') }}"
                    class="btn-primary inline-block text-white text-sm font-semibold px-6 py-2.5 rounded-xl">
                     Découvrir les offres
